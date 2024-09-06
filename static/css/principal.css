@@ -1,0 +1,33 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    padding: 0;
+}
+.headline {
+    margin-top: 150px;
+    text-align: center;
+}
+.headline h1 {
+    font-size: var(--size-titulo);
+    color: var(--color-primario);
+}
+.headline p {
+    font-size: var(--size-encabezado1);
+    color: var(--color-primario);
+}
+.headline .btn-crear {
+    background-color: var(--color-primario);
+    border: 2px solid var(--color-primario);
+    color: var(--color-secundario);
+    border-radius: 5px;
+    font-size: var(--size-button);
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.headline .btn-crear:hover {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+}

@@ -1,0 +1,54 @@
+body {
+    font-family: Arial;
+}
+.formulario {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.contenido {
+    background: var(--color-gris);
+    border-radius: 5px;
+    padding: 10px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 5px;
+}
+.contenido h1 {
+    font-size: var(--size-encabezado1);
+    color: var(--color-primario);
+}
+.contenido label {
+    font-size: var(--size-label);
+    color: var(--color-primario);
+}
+.contenido input {
+    font-size: var(--size-input);
+    background: none;
+    outline: none;
+    border: 2px solid transparent;
+    padding: 10px 0px;
+    width: 300px;
+    color: var(--color-primario);
+}
+.contenido input:focus {
+    border-bottom: 2px solid var(--color-primario);
+}
+.contenido .continuar{
+    font-size: 1.2em;
+    background-color: var(--color-primario);
+    border: 2px solid var(--color-primario);
+    color: var(--color-secundario);
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    float: right;
+}
+.contenido .continuar:hover {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+    /* background-color: var(--color-primario);
+    border-color: var(--color-primario); */
+}

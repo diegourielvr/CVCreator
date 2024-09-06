@@ -1,0 +1,40 @@
+body {
+    font-family: Arial;
+}
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 20px;
+}
+.top-bar .buttons {
+    display: flex;
+    gap: 20px;
+}
+.top-bar button {
+    background-color: transparent;
+    /* background-color: var(--color-blanco); */
+    color: var(--color-primario);
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: var(--size-button);
+}
+.top-bar button:hover {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    color: var(--color-secundario);
+}
+.top-bar .buttons .icono {
+    width: 15px; /* Ajusta el tamaño del ícono */
+    height: 15px; /* Ajusta el tamaño del ícono */
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
+    fill: var(--color-primario);
+    /* filter: invert(1); */
+}
+.top-bar button:hover .icono {
+    transition: all 0.5s ease; 
+    fill: var(--color-secundario);
+}

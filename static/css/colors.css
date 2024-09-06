@@ -1,0 +1,26 @@
+:root {
+    --color-primario: #e9e9e9; 
+    --color-secundario: #060606; 
+    --color-fondo: #060608; /* Morado claro */
+    --color-fondo2: #242634; /* Morado claro */
+    --color-blanco: #f3f3f3;
+    --color-blanco2: #e0e0e0;
+    --color-gris: #242634; /* Gris oscuro */
+    --color-gris2: #1e1e22; /* Gris mas oscuro */
+    --color-gris3: #3b3b3f; /* Gris mas oscuro */
+    --color-negro: #060608; /* Negro */
+    --color-azul: #1a6b83;
+    --size-titulo: 4em;
+    --size-encabezado1: 1.6em;
+    --size-encabezado2: 1.3em;
+    --size-label: 1.2em;
+    --size-input: 1.1em;
+    --size-button: 1.2em;
+    --size-p: 0.9em;
+}
+body {
+    background: linear-gradient(180deg, var(--color-fondo), var(--color-fondo2));
+    /* Proporciona un degradado de 135 grados, de morado oscuro (#6a0dad) a morado claro (#b19cd9) */
+    min-height: 100vh; /* Asegura que el fondo cubra toda la altura de la ventana */
+    margin: 0; /* Elimina cualquier margen predeterminado */
+}

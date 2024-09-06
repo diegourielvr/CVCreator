@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('curriculums.static', filename='css/crearCV.css') }}">
+    <title>Crear CV</title>
+</head>
+<body>
+    {% include 'menu.html' %}
+    <div class="regresar">
+        <div class="btn-regresar">
+            <a href="{{ url_for('curriculums.home') }}">
+                Regresar
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Crear nuevo curriculum</h1>
+        <div class="formulario">
+            <form id="crearForm" action="{{ url_for('curriculums.crear') }}" method="post">
+                <label for="titulo">Titulo del CV</label><br>
+                <input type="text" id="titulo" name="titulo" required placeholder="Ej. Mi Primer CV">
+                <h2>Plantillas</h2>
+                <div class="pt-contenedor">
+                    <label for="pt1" class="option">
+                        <div class="pt-item">
+                            <div class="preview">🍀</div>
+                            <input type="radio" name="pt" id="pt1" value="1" required>
+                            <p>Standar</p>
+                            <p>Autor</p>
+                        </div>
+                    </label>
+                    <label for="pt2" class="option">
+                        <div class="pt-item">
+                            <div class="preview">⚡</div>
+                            <input type="radio" name="pt" id="pt2" value="2">
+                            <p>Moderno</p>
+                            <p>Autor</p>
+                        </div>
+                    </label>
+                    <label for="pt3" class="option">
+                        <div class="pt-item">
+                            <div class="preview">◻</div>
+                            <input type="radio" name="pt" id="pt3" value="3">
+                            <p>Minimalista</p>
+                            <p>Autor</p>
+                        </div>
+                    </label>
+                </div>
+                <button type="submit" class="btn-crear">Crear</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('crearForm').addEventListener('submit', function(event){
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('crear', {
+                method: 'post',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status == "success") {
+                    alert(data.message);
+                    window.location.href = "{{ url_for('curriculums.home') }}";
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error', error);
+            });
+        });
+    </script>
+</body>
+</html>

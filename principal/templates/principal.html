@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/principal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+    <title>Principal</title>
+</head>
+<body>
+    {% include 'menu.html' %}
+
+    <div class="headline">
+        <h1>¡Crea tu currículum perfecto en minutos!</h1>
+        <p>Genera currículums profesionales y atractivos sin esfuerzo.</p>
+        <p>Nuestra app hace el trabajo pesado por ti.</p>
+        <a href="{{ url_for('autenticacion.login') }}">
+            <button class="btn-crear">Crear mi CV</button>
+        </a>
+    </div>
+</body>
+</html>

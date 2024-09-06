@@ -1,0 +1,87 @@
+.home {
+    padding: 0px 200px;
+    color: var(--color-primario);
+    display: flex;
+    flex-direction: column;
+}
+.home h1 {
+    font-size: var(--size-encabezado1);
+}
+.home h2 {
+    font-size: var(--size-encabezado2);
+}
+
+/* Crear documentos */
+.home .crear-contenedor {
+    color: var(--color-primario);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.home .crear-contenedor a {
+    text-decoration: none;
+    color: var(--color-primario);
+}
+.home .crear-contenedor .crear-item {
+    /* padding: 20px;  */
+    width: 120px;
+}
+.home .crear-contenedor .crear-item p {
+    font-size: var(--size-p);
+}
+.home .crear-contenedor .crear-item .preview {
+    /* background-color: rgba(36, 38, 52, 1); */
+    background-color: var(--color-gris2);
+    border: 2px solid var(--color-gris3);
+    border-radius: 5px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    color: var(--color-primario)
+}
+.home .crear-contenedor a:hover .crear-item .preview {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+    background-color: rgba(26, 107, 131, 0.274);
+    border-color: rgba(26, 107, 131, 0.9);
+}
+
+/* Tus curriculums */
+.home .cv-contenedor {
+    color: var(--color-primario);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.home .cv-contenedor a {
+    text-decoration: none;
+    color: var(--color-primario);
+}
+.home .cv-contenedor .cv-item {
+    /* padding: 20px;  */
+    width: 150px;
+}
+
+.home .cv-contenedor .cv-item p{
+    font-size: var(--size-p);
+}
+.home .cv-contenedor .cv-item .preview {
+    background-color: var(--color-gris2);
+    border: 2px solid var(--color-gris3);
+    border-radius: 5px;
+    height: 200px;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding: 10px 10px;
+    font-size: 2em;
+    color: var(--color-primario)
+}
+.home .cv-contenedor a:hover .cv-item .preview {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+    background-color: rgba(26, 107, 131, 0.274);
+    border-color: rgba(26, 107, 131, 0.9);
+}

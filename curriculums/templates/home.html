@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('curriculums.static', filename='css/home.css') }}">
+    <title>Home</title>
+</head>
+<body>
+    {% include 'menu.html '%}
+    <div class="home">
+        <div class="titulo">
+            <h1>Bienvenido {{ session['username'] }}</h1>
+        </div>
+        <h2>Crear un CV</h2>
+        <div class="crear-contenedor">
+            <a href="{{ url_for('curriculums.crear') }}">
+                <div class="crear-item">
+                    <div class="preview">➕</div>
+                    <p>CV en blanco</p>
+                </div>
+            </a>
+        </div>
+        <h2>Tus curriculums</h2>
+        <div class="cv-contenedor">
+            {% if cvs %}
+                {% for cv in cvs %}
+                    <a href="{{ url_for('curriculums.editar', id_curriculum=cv.getIdCurriculum()) }}">
+                        <div class="cv-item">
+                            <div class="preview">{{ cv.getIdCurriculum() }}</div>
+                            <p>{{ cv.getTitulo() }}</p>
+                            <p>{{ cv.getFechaModificacion() }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <h2 hidden>No tienes cvs 😔</h2>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

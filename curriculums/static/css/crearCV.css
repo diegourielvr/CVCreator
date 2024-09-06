@@ -1,0 +1,113 @@
+body {
+    font-family: Arial;
+    color: var(--color-primario);
+    margin: 0;
+}
+.regresar {
+    display: flex;
+    margin-left: 20px;
+}
+.regresar .btn-regresar a {
+    text-decoration: none;
+    background-color: var(--color-primario);
+    padding: 10px 20px;
+    font-size: var(--size-button);
+    border-radius: 5px;
+    color: var(--color-secundario);
+}
+.regresar .btn-regresar:hover {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); 
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container h1 {
+    font-size: var(--size-encabezado1);
+}
+.container .formulario {
+    padding: 10px 20px;
+}
+.container .formulario label {
+    font-size: var(--size-label);
+    color: var(--color-primario);
+}
+.container .formulario input {
+    font-size: var(--size-input);
+    background: none;
+    outline: none;
+    border: 2px solid transparent;
+    padding: 10px 0px;
+    width: 300px;
+    color: var(--color-primario);
+}
+    .container .formulario input:focus {
+    border-bottom: 2px solid var(--color-primario);
+}
+
+.container h2 {
+    font-size: 1.2em;
+    color: var(--color-primario);
+}
+
+.container .formulario .pt-contenedor {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.container .formulario .btn-crear {
+    font-size: 1.2em;
+    background-color: var(--color-primario);
+    border: 2px solid var(--color-primario);
+    color: var(--color-secundario);
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    float: right;
+}
+.container .formulario .btn-crear:hover {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+}
+.container .formulario .pt-contenedor .pt-item {
+    width: 150px;
+    cursor: pointer;
+    padding: 10px 10px;
+    margin-top: 15px;
+}
+.container .formulario .pt-contenedor .pt-item p {
+    font-size: 0.9em;
+    margin: 15px 0px;
+}
+.container .formulario .pt-contenedor .pt-item .preview {
+    background-color: var(--color-gris2);
+    border: 2px solid var(--color-gris3);
+    border-radius: 5px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    color: var(--color-primario)
+}
+.container .formulario .pt-contenedor .pt-item:hover .preview{
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+    background-color: rgba(26, 107, 131, 0.274);
+    border-color: rgba(26, 107, 131, 0.9);
+}
+.container .formulario .pt-contenedor .pt-item input[type="radio"] {
+    display: none;
+}
+.option:has(input[type="radio"]:checked) .pt-item .preview{
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+    background-color: rgba(26, 107, 131, 0.274);
+    border-color: rgba(26, 107, 131, 0.9);
+}
+.option:has(input[type="radio"]:checked) .pt-item {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+}

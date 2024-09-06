@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Currículum</title>
+    <link rel="stylesheet" href="{{ url_for('curriculums.static', filename='css/edicion.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+</head>
+<body>
+
+{% include 'menu.html' %}
+
+<div class="buttons-bar">
+    <div class="buttons-left">
+        <button class="back-button">Regresar</button>
+    </div>
+    <div class="buttons-right">
+        <button>Vista Previa</button>
+        <button>Exportar</button>
+        <button>Eliminar</button>
+        <button>Guardar</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="form-container">
+        <div class="form-panel" id="personal-info">
+            <div class="form-header" onclick="toggleSection('personal-info')">
+                Datos Personales
+                <span>▼</span>
+            </div>
+            <div class="form-body">
+                <input type="text" placeholder="Nombre(s)">
+                <input type="text" placeholder="Apellidos">
+                <input type="text" placeholder="Teléfono">
+                <input type="email" placeholder="Correo electrónico">
+            </div>
+        </div>
+
+        <div class="form-panel" id="job-experience">
+            <div class="form-header" onclick="toggleSection('job-experience')">
+                Experiencia Laboral
+                <span>▼</span>
+            </div>
+            <div class="form-body">
+                <input type="text" placeholder="Puesto">
+                <input type="text" placeholder="Compañía">
+                <h2>fecha de inicio<h2>
+                <input type="date">
+                <h2>fecha de finalización<h2>
+                <input type="date">
+                <textarea placeholder="Tarea / Resumen" rows="4"></textarea>
+            </div>
+        </div>
+        <div class="form-panel" id="education-info">
+            <div class="form-header" onclick="toggleSection('education-info')">
+                Educación
+                <span>▼</span>
+            </div>
+            <div class="form-body">
+                <input type="text" placeholder="Institucion">
+                <input type="text" placeholder="Grado">
+                <h2>fecha de inicio<h2>
+                <input type="date">
+                <h2>fecha de finalización<h2>
+                <input type="date">
+                <textarea placeholder="descripción" rows="4"></textarea>
+            </div>
+        </div>
+        <div class="form-panel" id="habilidad-info">
+            <div class="form-header" onclick="toggleSection('habilidad-info')">
+                Habilidad
+                <span>▼</span>
+            </div>
+            <div class="form-body">
+                <input type="text" placeholder="Habilidad">
+                <input type="text" placeholder="Descripción">
+            </div>
+        </div>
+        <div class="form-panel" id="lenguaje-info">
+            <div class="form-header" onclick="toggleSection('lenguaje-info')">
+                Lenguaje
+                <span>▼</span>
+            </div>
+            <div class="form-body">
+                <input type="text" placeholder="Lenguaje">
+                <input type="text" placeholder="Nivel">
+                <input type="text" placeholder="Descripción">
+            </div>
+        </div>
+    </div>
+
+    <div class="preview-panel">
+        <h2>Vista Previa id: {{ id }}</h2>
+        <!-- Aquí se muestra la vista previa del CV -->
+    </div>
+</div>
+
+<script>
+    function toggleSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        const formBody = section.querySelector('.form-body');
+        const icon = section.querySelector('span');
+
+        // Alternar la clase 'minimized'
+        if (section.classList.contains('minimized')) {
+            section.classList.remove('minimized');
+            formBody.style.display = 'block'; // Mostrar el contenido del formulario
+            icon.textContent = '▲'; // Cambiar el icono a la flecha hacia abajo
+        } else {
+            section.classList.add('minimized');
+            formBody.style.display = 'none'; // Ocultar el contenido del formulario
+            icon.textContent = '▼'; // Cambiar el icono a la flecha hacia arriba
+        }
+    }s
+</script>
+
+</body>
+</html>
