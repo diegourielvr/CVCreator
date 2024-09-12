@@ -46,7 +46,7 @@ def actualizarCV(id_curriculum, file):
 
 def eliminarCV(id_curriculum):
     estado = ConectorDBCurriculums.eliminarCV(id_curriculum)
-    # TODO
+    # TODO: Aqui hacer las validacinoes necesarias
     return
     
          

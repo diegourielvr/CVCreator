@@ -48,5 +48,11 @@ def actualizarCV(id_curriculum, file):
     return
 
 def eliminarCV(id_curriculum):
-    # TODO
-    return
+    try:
+        # Eliminar el CV de la tabla 'curriculums'
+        sql = "DELETE FROM curriculums WHERE id_curriculum = %s"
+        cursor.execute(sql, (id_curriculum,))
+        conexion.commit()
+        print(f"CV con id {id_curriculum} eliminado correctamente.")
+    except mysql.connector.Error as err:
+        print(f"Error al eliminar el CV: {err}")

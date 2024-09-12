@@ -40,3 +40,13 @@ def editar(id_curriculum):
     # editar/id methods == "post"
     datos = None
     estado = GestorCurriculums.actualizarCV(id, datos)
+
+@curriculums_bp.route("/eliminar/<id_curriculum>", methods=['GET', 'POST'])
+def eliminar(id_curriculum):
+    if not GestorSesion.usuarioLogeado():
+        return redirect(url_for('principal.index'))
+    
+    if request.method == 'POST':
+        id = escape(id_curriculum)
+        return GestorCurriculums.eliminarCV(id)
+    # ¿¿ Solo deberia eliminar esta ruyta?? ?_?
