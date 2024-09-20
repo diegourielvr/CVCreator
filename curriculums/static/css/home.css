@@ -39,7 +39,7 @@
     justify-content: center;
     align-items: center;
     font-size: 2em;
-    color: var(--color-primario)
+    color: var(--color-primario);
 }
 .home .crear-contenedor a:hover .crear-item .preview {
     transition: all 0.5s ease; /* Añade una transición suave para la transformación */
@@ -73,15 +73,29 @@
     border-radius: 5px;
     height: 200px;
     display: flex;
-    justify-content: end;
-    align-items: end;
+    justify-content: center;
+    align-items: center;
     padding: 10px 10px;
     font-size: 2em;
     color: var(--color-primario)
+}
+.home .cv-contenedor .cv-item .preview .icono{
+    width: 32px; /* Ajusta el tamaño del ícono */
+    height: 32px; /* Ajusta el tamaño del ícono */
+    fill: transparent;
 }
 .home .cv-contenedor a:hover .cv-item .preview {
     transition: all 0.5s ease; /* Añade una transición suave para la transformación */
     transform: scale(1.1); /* Agranda el botón un 10% */
     background-color: rgba(26, 107, 131, 0.274);
     border-color: rgba(26, 107, 131, 0.9);
+}
+.home .cv-contenedor a:hover .cv-item p {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+}
+.home .cv-contenedor a:hover .cv-item .preview .icono{
+    transition: all 2s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+    fill: var(--color-primario);
 }

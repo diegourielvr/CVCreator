@@ -50,3 +50,14 @@ def eliminar(id_curriculum):
         id = escape(id_curriculum)
         return GestorCurriculums.eliminarCV(id)
     # ¿¿ Solo deberia eliminar esta ruyta?? ?_?
+    
+@curriculums_bp.route("/exportar/<id_curriculum>", methods=['GET', 'POST'])
+def exportar(id_curriculum):
+    if not GestorSesion.usuarioLogeado():
+        return redirect(url_for('principal.index'))
+    
+    if request.method == 'POST':
+        formato = request.form['fmt']
+        return GestorCurriculums.exportar(id_curriculum, formato)
+
+    return render_template('exportar.html', id_cum=id_curriculum)

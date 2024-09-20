@@ -18,7 +18,9 @@
     </div>
     <div class="buttons-right">
         <button>Vista Previa</button>
-        <button>Exportar</button>
+        <a href="{{ url_for('curriculums.exportar', id_curriculum=id) }}">
+            <button>Exportar</button>
+        </a>
         <button>Eliminar</button>
         <button>Guardar</button>
     </div>

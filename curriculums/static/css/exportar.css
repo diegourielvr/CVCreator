@@ -34,29 +34,17 @@ body {
     font-size: var(--size-label);
     color: var(--color-primario);
 }
-.container .formulario input {
-    font-size: var(--size-input);
-    background: none;
-    outline: none;
-    border: 2px solid transparent;
-    padding: 10px 0px;
-    width: 300px;
-    color: var(--color-primario);
-}
-.container .formulario input:focus {
-    border-bottom: 2px solid var(--color-primario);
-}
 .container h2 {
     font-size: 1.2em;
     color: var(--color-primario);
 }
 
-.container .formulario .pt-contenedor {
+.container .formulario .fmt-contenedor {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
-.container .formulario .btn-crear {
+.container .formulario .btn-exportar {
     font-size: 1.2em;
     background-color: var(--color-primario);
     border: 2px solid var(--color-primario);
@@ -65,22 +53,19 @@ body {
     padding: 10px 20px;
     cursor: pointer;
     float: right;
+    margin-top: 25px;
 }
-.container .formulario .btn-crear:hover {
+.container .formulario .btn-exportar:hover {
     transition: all 0.5s ease; /* Añade una transición suave para la transformación */
     transform: scale(1.1); /* Agranda el botón un 10% */
 }
-.container .formulario .pt-contenedor .pt-item {
+.container .formulario .fmt-contenedor .fmt-item {
     width: 150px;
     cursor: pointer;
     padding: 10px 10px;
     margin-top: 15px;
 }
-.container .formulario .pt-contenedor .pt-item p {
-    font-size: 0.9em;
-    margin: 15px 0px;
-}
-.container .formulario .pt-contenedor .pt-item .preview {
+.container .formulario .fmt-contenedor .fmt-item .preview {
     background-color: var(--color-gris2);
     border: 2px solid var(--color-gris3);
     border-radius: 5px;
@@ -91,27 +76,22 @@ body {
     font-size: 2em;
     color: var(--color-primario)
 }
-.container .formulario .pt-contenedor .pt-item .preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.container .formulario .pt-contenedor .pt-item:hover .preview{
+.container .formulario .fmt-contenedor .fmt-item:hover .preview{
     transition: all 0.5s ease; /* Añade una transición suave para la transformación */
     transform: scale(1.1); /* Agranda el botón un 10% */
     background-color: rgba(26, 107, 131, 0.274);
     border-color: rgba(26, 107, 131, 0.9);
 }
-.container .formulario .pt-contenedor .pt-item input[type="radio"] {
+.container .formulario .fmt-contenedor .fmt-item input[type="radio"] {
     display: none;
 }
-.option:has(input[type="radio"]:checked) .pt-item .preview{
+.option:has(input[type="radio"]:checked) .fmt-item .preview{
     transition: all 0.5s ease; /* Añade una transición suave para la transformación */
     transform: scale(1.1); /* Agranda el botón un 10% */
     background-color: rgba(26, 107, 131, 0.274);
     border-color: rgba(26, 107, 131, 0.9);
 }
-.option:has(input[type="radio"]:checked) .pt-item {
+.option:has(input[type="radio"]:checked) .fmt-item {
     transition: all 0.5s ease; /* Añade una transición suave para la transformación */
     transform: scale(1.1); /* Agranda el botón un 10% */
 }

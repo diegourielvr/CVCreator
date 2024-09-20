@@ -36,6 +36,10 @@ source .venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+- Instalar MikTeX
+
+https://miktex.org/howto/install-miktex
+
 
 ## Configurar base de datos
 

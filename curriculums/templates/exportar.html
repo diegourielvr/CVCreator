@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+    
+    
+    
+    <link rel="stylesheet" href="{{ url_for('curriculums.static', filename='css/exportar.css') }}">
+    
+    
+    
+    <title>Exportar CV</title>
+</head>
+<body>
+    {% include 'menu.html' %}
+    <div class="regresar">
+        <div class="btn-regresar">
+            <a href="{{ url_for('curriculums.editar', id_curriculum=id_cum) }}">
+                Regresar
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Exportar curriculum</h1>
+        <div class="formulario">
+            <form id="exportarForm" action="{{ url_for('curriculums.exportar', id_curriculum=id_cum) }}" method="post">
+                <h2>Selecciona un formato</h2>
+                <div class="fmt-contenedor">
+                    <label for="pdf" class="option">
+                        <div class="fmt-item">
+                            <div class="preview">
+                                <img src="https://cdn3.iconfinder.com/data/icons/document-file-formats-2/512/14-64.png" alt="pdf">
+                            </div>
+                            <input type="radio" name="fmt" id="pdf" value="pdf" required>
+                        </div>
+                    </label>
+                    <label for="tex" class="option">
+                        <div class="fmt-item">
+                            <div class="preview">
+                                <img src="https://cdn3.iconfinder.com/data/icons/document-file-formats-2/512/18-64.png" alt="tex">
+                            </div>
+                            <input type="radio" name="fmt" id="tex" value="tex">
+                        </div>
+                    </label>
+                </div>
+                <button type="submit" class="btn-exportar">Exportar</button>
+            </form>
+        </div>
+    </div>
+    <!-- <script>
+        document.getElementById('exportarForm').addEventListener('submit', function(event){
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch("{{url_for('curriculums.exportar', id_curriculum=id_cum)}}", {
+                method: 'post',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status == "success") {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error', error);
+            });
+        });
+    </script> -->
+</body>
+</html>
