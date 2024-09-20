@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
-    
-    
-    
     <link rel="stylesheet" href="{{ url_for('curriculums.static', filename='css/exportar.css') }}">
-    
-    
-    
     <title>Exportar CV</title>
 </head>
 <body>
@@ -59,12 +52,21 @@
                 method: 'post',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status == "success") {
-                    alert(data.message);
-                } else {
-                    alert(data.message);
+            .then(response => {
+                if (response.ok) {
+                    alert("Archivo descargado correctamente ✅");
+                    return response.blob().then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'archivo.pdf'; // El nombre del archivo que se descarga
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                    });
+                }
+                else {
+                    alert("Error al descargar el archivo");
                 }
             })
             .catch(error => {

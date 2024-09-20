@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('curriculums.static', filename='css/exportar.css') }}">
+    <title>Exportar CV</title>
+</head>
+<body>
+    {% include 'menu.html' %}
+    <div class="regresar">
+        <div class="btn-regresar">
+            <a href="{{ url_for('curriculums.home') }}">
+                Regresar
+            </a>
+        </div>
+    </div>
+    <center>
+        <h2>{{ mensaje }}</h2>
+    </center>
+</body>
+</html>

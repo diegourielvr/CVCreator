@@ -1,4 +1,5 @@
 from io import BytesIO
+import json
 from flask import jsonify, render_template, send_file
 from curriculums.Curriculum import Curriculum
 from curriculums import Exportacion
@@ -27,8 +28,14 @@ def crearCV(titulo, id_plantilla):
             'status': 'error',
             'message': '¡Debes seleccionar una plantilla! ⚠'
         })
-    # TODO: Validar que el titulo no se repita
-    id_usuario = GestorSesion.getIdUsuario() # Recupera id id_usuario
+    id_usuario = GestorSesion.getIdUsuario() # Recupera id_usuario
+
+    if ConectorDBCurriculums.existeTitulo(titulo, id_usuario):
+        return jsonify({
+            'status': 'error',
+            'message': f'Ya existe un archivo con el mismo titulo ({titulo}) ⚠'
+        })
+    
     if ConectorDBCurriculums.crearCV(id_usuario, id_plantilla, titulo):
         return jsonify({
             'status': 'success',
@@ -52,12 +59,28 @@ def eliminarCV(id_curriculum):
     return
 
 def exportar(id_curriculum, formato):
-    # Validar que existe el id_curriculum
-    # Validar que el id_curriculum pertenexca al usuario con sesion actual
-    # Exportar unicamente despues de haber guardado los cambios
+    id_usuario = GestorSesion.getIdUsuario()
+    if not ConectorDBCurriculums.existeCurriculum(id_curriculum, id_usuario):
+        estado = False
+        mensaje = "No existe el curriculum ❌"
+        return estado, mensaje 
+        
     # obtener ifnormación de la BD
+    cv = ConectorDBCurriculums.obtenerCV(id_curriculum)
+    
+    id_plantilla = str(cv[1])
+    nombre_cv = cv[2]
+    datos = {} # Siempre pasar un diccionario (aunque este vacio)
+    if cv[5]:
+        datos = json.loads(cv[5])
+    else:
+        datos = getJsonEjemplo()
 
-    datos = {
+    estado = True
+    return estado, Exportacion.exportar(formato, id_plantilla, nombre_cv, datos)
+    
+def getJsonEjemplo():
+    return {
         "datos_personales": {
             "nombre": "Diego Uriel",
             "apellidos": "Vazquez Ramirez",
@@ -137,8 +160,3 @@ def exportar(id_curriculum, formato):
             },
         ]
     }
-    id_plantilla = str(3) # Obtener de la base de datos
-    nombre_cv = "Mi primer CV"
-    return Exportacion.exportar(formato, id_plantilla, nombre_cv, datos)
-    
-         

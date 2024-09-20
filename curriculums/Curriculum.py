@@ -15,3 +15,6 @@ class Curriculum:
         
     def getFechaModificacion(self):
         return self.fecha_modificacion
+
+    def getIdPlantilla(self):
+        return str(self.id_plantilla)

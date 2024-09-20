@@ -73,11 +73,13 @@
 \newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
 
 % Change PDF Meta Info here
+{% endraw %}{% if datos_personales %}{% raw %}
 \hypersetup{
-    pdftitle={example - CV - English},
-    pdfauthor={example},
+    pdftitle={CV - {% endraw %}{{ datos_personales.nombre }}{% raw %}},
+    pdfauthor={{% endraw %}{{ datos_personales.apellidos }}{% raw %}},
     pdfsubject={CV}
 }
+{% endraw %}{% endif%}{% raw %}
 
 % Paper size
 \geometry{
@@ -109,16 +111,19 @@
         \color{sidetext}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % YOUR NAME, PRONOUNS, OCCUPATION(s), AND HEADSHOT
+        {% endraw %}{% if datos_personales %}{% raw %}
         {\bfseries\scshape\HUGE {% endraw %}{{ datos_personales.nombre }}{% raw %} } \\
         {\bfseries\scshape\Huge {% endraw %}{{ datos_personales.apellidos }}{% raw %}}
         \vspace{.3cm} \\
         {% endraw %}{{ datos_personales.ocupacion }}{% raw %}
         \\
+        {% endraw %}{% endif%}{% raw %}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % YOUR PERSONAL INFROMATION
+        {% endraw %}{% if datos_personales %}{% raw %}
         \phantomsection{}
         \addcontentsline{toc}{section}{Personal info}
-        \section*{\large Personal info}
+        \section*{\large Información personal}
         \begin{tabularx}{\textwidth}{cY}
             \faStarOfLife{} & {% endraw %}{{ datos_personales.fecha_nacimiento }}{% raw %} \\
             \faPhone{}      & {% endraw %}{{ datos_personales.telefono }}{% raw %} \\
@@ -126,8 +131,10 @@
         \end{tabularx}
         \vspace{.3cm} \\
         \rule{\linewidth}{0.4pt} \\
+        {% endraw %}{% endif%}{% raw %}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % YOUR LINKS, YOU MAY ALSO ADD A PERSONAL WEBSITE OR PORTFOLIO
+        {% endraw %}{% if links %}{% raw %}
         \phantomsection{}
         \addcontentsline{toc}{section}{Links}
         \section*{\large Links}
@@ -138,11 +145,13 @@
         \end{tabular}
         \vspace{10pt} \\
         \rule{\linewidth}{0.4pt} \\
+        {% endraw %}{% endif%}{% raw %}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % LANGUAGES
+        {% endraw %}{% if lenguajes%}{% raw %}
         \phantomsection
         \addcontentsline{toc}{section}{Languages}
-        \section*{\large Languages}
+        \section*{\large Idiomas}
         \begin{tabular}{cl}
             {% endraw %}{% for lenguaje in lenguajes %}{% raw %}
             \faLanguage{} & {{% endraw %}{{ lenguaje.idioma }}{% raw %}} \textendash{} (Nivel: {% endraw %}{{ lenguaje.nivel }}{% raw %}) \\
@@ -150,12 +159,14 @@
         \end{tabular}
         \vspace{.3cm} \\
         \rule{\linewidth}{0.4pt} \\
+        {% endraw %}{% endif%}{% raw %}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % YOUR SKILLS
         % Add/Remove as seen fit, Icons: https://packages.oth-regensburg.de/ctan/fonts/fontawesome5/doc/fontawesome5.pdf
+        {% endraw %}{% if habilidades %}{% raw %}
         \phantomsection{}
         \addcontentsline{toc}{section}{Skills}
-        \section*{\large Skills}{% endraw %}{% for habilidad in habilidades %}{% raw %}
+        \section*{\large Habilidades}{% endraw %}{% for habilidad in habilidades %}{% raw %}
         \subsection*{\small {% endraw %}{{ habilidad.nombre }}{% raw %}}
         \begin{tabularx}{\textwidth}{cY}
             {% endraw %}{% for subhabilidad in habilidad.subhabilidades %}{% raw %}
@@ -164,6 +175,7 @@
         \end{tabularx}{% endraw %}{% endfor %}{% raw %}
         \vspace{1pt} \\
         \rule{\linewidth}{0.4pt} \\
+        {% endraw %}{% endif%}{% raw %}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % GRADESCALE (if nesseary, e.g. if you apply abroad, where scales 
         % are different. You should at least provide, what the best possible
@@ -177,9 +189,10 @@
         \color{maintext}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % WORK EXPERIENCE
+        {% endraw %}{% if experiencia_laboral %}{% raw %}
         \phantomsection{}
         \addcontentsline{toc}{section}{Work Experience}
-        \section*{\scshape\Large Work Experience \rule{\linewidth}{0.4pt}}
+        \section*{\scshape\Large Experiencia laboral \rule{\linewidth}{0.4pt}}
         {% endraw %}{% for exp in experiencia_laboral %}{% raw %}
         {\large \textbf{{% endraw %}{{ exp.compania }}{% raw %}}} \\ 
         {{\fontseries{medium}\selectfont {% endraw %}{{ exp.puesto }}{% raw %}}} \\
@@ -189,17 +202,20 @@
             \item {% endraw %}{{ exp.resumen }}{% raw %} 
         \end{itemize}
         {% endraw %}{% endfor %}{% raw %}
+        {% endraw %}{% endif%}{% raw %}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % EDUCATION
+        {% endraw %}{% if educacion %}{% raw %}
         \phantomsection{}
         \addcontentsline{toc}{section}{Education}
-        \section*{\scshape\Large Education \rule{\linewidth}{0.4pt}}
+        \section*{\scshape\Large Educación \rule{\linewidth}{0.4pt}}
         {% endraw %}{% for edu in educacion %}{% raw %}
         {\large \textbf{{% endraw %}{{ edu.institucion }}{% raw %}}} \\
         {\scshape\fontseries{sl}\selectfont\footnotesize {% endraw %}{{ edu.fecha_inicio }}{% raw %} \textendash{} {% endraw %}{{ edu.fecha_fin }}{% raw %}} \\
         {Degree: {% endraw %}{{ edu.grado }}{% raw %}} \\[1ex]
         {\footnotesize {% endraw %}{{ edu.resumen }}{% raw %}} \\
         {% endraw %}{% endfor %}{% raw %}
+        {% endraw %}{% endif%}{% raw %}
     \end{minipage}
 }
 \end{document}

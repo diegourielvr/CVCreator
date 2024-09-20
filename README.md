@@ -59,3 +59,26 @@ https://miktex.org/howto/install-miktex
 ```bash
 python app.py
 ```
+
+## Añadir plantillas .tex
+
+Para añadir o crear una plantilla .tex, es recomendable utilizar bloques [raw](https://jinja.palletsprojects.com/en/3.1.x/templates/#escaping). Los bloques marcados con {% raw %} y {% endraw%} serán omitidos por jinja, dentro de este espacio se debe colocar el código de la plantilla. tex. 
+
+### Problemas
+
+1. LaTeX Error: There's no line here to end
+
+Se debe a que uno o más saltos de linea (lineas en blanco) antes o despues de \\begin{tabular} estan presentes y esto causa problemas al momento de compilar a pdf con pdflatex.
+Solución: Mover los bloques {% raw %} y {% endraw %} a un lugar donde no generen saltos de linea.
+
+- Ejemplo:
+```tex
+    \section*{\large Skills}{% endraw %}{% for habilidad in habilidades %}{% raw %} % Aquí no se generan saltos de linea
+    \subsection*{\small {% endraw %}{{ habilidad.nombre }}{% raw %}}
+    \begin{tabularx}{\textwidth}{cY}
+        % Dentro de \tabular se pueden dejar saltos de linea y no deberia afectar
+        {% endraw %}{% for subhabilidad in habilidad.subhabilidades %}{% raw %}
+        \tiny{\faChevronRight}        & {% endraw %}{{ subhabilidad }}{% raw %} \\
+        {% endraw %}{% endfor %}{% raw %}
+    \end{tabularx}{% endraw %}{% endfor %}{% raw %} % Aquí tampoco se generan saltos de linea
+```

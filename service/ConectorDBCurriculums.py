@@ -40,8 +40,20 @@ def crearCV(id_usuario, id_plantilla, titulo):
         return False
 
 def obtenerCV(id_curriculum):
-    # TODO
-    return
+    # TODO: Falta obtener el json
+    sql = """
+    SELECT id_usuario, id_plantilla, titulo, fecha_creacion, fecha_ultima_modificacion, archivo_json from curriculums
+    WHERE id_curriculum = %s
+    """
+    values = (id_curriculum,)
+    try:
+        cursor.execute(sql, values)
+        cv = cursor.fetchone()
+        if cv:
+            return cv
+        return False
+    except mysql.connector.Error as err:
+        return False
 
 def actualizarCV(id_curriculum, file):
     #TODO
@@ -56,3 +68,33 @@ def eliminarCV(id_curriculum):
         print(f"CV con id {id_curriculum} eliminado correctamente.")
     except mysql.connector.Error as err:
         print(f"Error al eliminar el CV: {err}")
+
+def existeTitulo(titulo, id_usuario):
+    sql = """
+    SELECT id_curriculum from curriculums
+    WHERE titulo = %s AND id_usuario = %s
+    """
+    values = (titulo, id_usuario)
+    try:
+        cursor.execute(sql, values)
+        cv = cursor.fetchone()
+        if cv:
+            return True
+        return False
+    except mysql.connector.Error as err:
+        return False
+
+def existeCurriculum(id_curriculum, id_usuario):
+    sql = """
+    SELECT id_curriculum from curriculums
+    WHERE id_curriculum = %s AND id_usuario = %s
+    """
+    values = (id_curriculum, id_usuario)
+    try:
+        cursor.execute(sql, values)
+        cv = cursor.fetchone()
+        if cv:
+            return True
+        return False
+    except mysql.connector.Error as err:
+        return False

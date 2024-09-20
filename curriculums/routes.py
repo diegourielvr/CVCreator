@@ -58,6 +58,11 @@ def exportar(id_curriculum):
     
     if request.method == 'POST':
         formato = request.form['fmt']
-        return GestorCurriculums.exportar(id_curriculum, formato)
+        estado, respuesta = GestorCurriculums.exportar(id_curriculum, formato)
+        if estado:
+            return respuesta # Devuelve el archivo
+        else:
+            return render_template('notificacion.html', mensaje=respuesta)
+            
 
     return render_template('exportar.html', id_cum=id_curriculum)

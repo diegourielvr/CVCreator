@@ -20,7 +20,8 @@ def exportarTEX(nombre_pt, nombre_cv, datos):
     nuevo_archivo = render_template(nombre_pt, **datos)
     return send_file(BytesIO(nuevo_archivo.encode('utf-8')),
                      download_name=f"{nombre_cv}.tex", # Nombre del archivo (al no existir es necesario indicar uno)
-                     as_attachment=True) # Descargar en lugar de mostar en el navgeador
+                     #as_attachment=True, # Descargar en lugar de mostar en el navgeador
+                     mimetype='text/x-tex')
 
 def exportarPDF(nombre_pt, nombre_cv, datos):
     # Renderiza la plantilla .tex en memoria
@@ -37,7 +38,9 @@ def exportarPDF(nombre_pt, nombre_cv, datos):
             archivo_tex.write(contenido_tex)
             
         # Ejecutar pdflatex para generar el archivo PDF en el mismo directorio temporal
-        subprocess.run(['pdflatex', '-output-directory', tempdir, ruta_tex])
+        subprocess.run(['pdflatex', '-output-directory', tempdir, ruta_tex],
+                       stdout=subprocess.DEVNULL,  # Ocultar la salida estándar
+                       stderr=subprocess.DEVNULL)  # Ocultar los errores)
         
         # Ruta para el archivo PDF generado
         ruta_pdf = os.path.join(tempdir, 'archivo.pdf')
@@ -52,6 +55,6 @@ def exportarPDF(nombre_pt, nombre_cv, datos):
         
         # Enviar el archivo PDF como respuesta
         return send_file(pdf_buffer,
-                         as_attachment=True,
+                         #as_attachment=True,
                          download_name=f'{nombre_cv}.pdf',
                          mimetype='application/pdf')
