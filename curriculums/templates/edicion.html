@@ -17,12 +17,12 @@
         <button class="back-button">Regresar</button>
     </div>
     <div class="buttons-right">
-        <button>Vista Previa</button>
+        <button onclick="Vista()">Vista Previa</button> <!--  -->
         <a href="{{ url_for('curriculums.exportar', id_curriculum=id) }}">
             <button>Exportar</button>
         </a>
         <button>Eliminar</button>
-        <button>Guardar</button>
+        <button onclick="saveToJson()">Guardar</button>
     </div>
 </div>
 
@@ -34,10 +34,13 @@
                 <span>▼</span>
             </div>
             <div class="form-body">
-                <input type="text" placeholder="Nombre(s)">
-                <input type="text" placeholder="Apellidos">
-                <input type="text" placeholder="Teléfono">
-                <input type="email" placeholder="Correo electrónico">
+                <input type="text" id="name" placeholder="Nombre(s)">
+                <input type="text" id="surname" placeholder="Apellidos">
+                <input type="text" id="ocupacion" placeholder="Ocupación">
+                <h2>fecha de nacimiento<h2></h2>
+                <input type="date" id="nacimiento">
+                <input type="text" id="phone" placeholder="Teléfono">
+                <input type="email" id="email" placeholder="Correo electrónico">
             </div>
         </div>
 
@@ -47,13 +50,13 @@
                 <span>▼</span>
             </div>
             <div class="form-body">
-                <input type="text" placeholder="Puesto">
-                <input type="text" placeholder="Compañía">
-                <h2>fecha de inicio<h2>
-                <input type="date">
-                <h2>fecha de finalización<h2>
-                <input type="date">
-                <textarea placeholder="Tarea / Resumen" rows="4"></textarea>
+                <input type="text" id="job-title" placeholder="Puesto">
+                <input type="text" id="company" placeholder="Compañía">
+                <h2>fecha de inicio<h2></h2>
+                <input type="date" id="job-start-date">
+                <h2>fecha de finalización<h2></h2>
+                <input type="date" id="job-end-date">
+                <textarea id="job-summary" placeholder="Tarea / Resumen" rows="4"></textarea>
             </div>
         </div>
         <div class="form-panel" id="education-info">
@@ -62,13 +65,13 @@
                 <span>▼</span>
             </div>
             <div class="form-body">
-                <input type="text" placeholder="Institucion">
-                <input type="text" placeholder="Grado">
+                <input type="text" id="institution" placeholder="Institucion">
+                <input type="text" id="degree" placeholder="Grado">
                 <h2>fecha de inicio<h2>
-                <input type="date">
-                <h2>fecha de finalización<h2>
-                <input type="date">
-                <textarea placeholder="descripción" rows="4"></textarea>
+                <input type="date" id="education-start-date">
+                <h2>fecha de finalización<h2></h2>
+                <input type="date" id="education-end-date">
+                <textarea id="education-description" placeholder="descripción" rows="4"></textarea>
             </div>
         </div>
         <div class="form-panel" id="habilidad-info">
@@ -77,8 +80,8 @@
                 <span>▼</span>
             </div>
             <div class="form-body">
-                <input type="text" placeholder="Habilidad">
-                <input type="text" placeholder="Descripción">
+                <input type="text" id="skill" placeholder="Habilidad">
+                <input type="text" id="skill-description" placeholder="Descripción">
             </div>
         </div>
         <div class="form-panel" id="lenguaje-info">
@@ -87,9 +90,9 @@
                 <span>▼</span>
             </div>
             <div class="form-body">
-                <input type="text" placeholder="Lenguaje">
-                <input type="text" placeholder="Nivel">
-                <input type="text" placeholder="Descripción">
+                <input type="text" id="language" placeholder="Lenguaje">
+                <input type="text" id="language-level" placeholder="Nivel">
+                <input type="text" id="language-description" placeholder="Descripción">
             </div>
         </div>
     </div>
@@ -116,7 +119,80 @@
             formBody.style.display = 'none'; // Ocultar el contenido del formulario
             icon.textContent = '▼'; // Cambiar el icono a la flecha hacia arriba
         }
-    }s
+    }
+    function saveToJson() {
+        // Recoger datos de los formularios
+        const data = {
+            datos_personales: {
+                nombre: document.getElementById('name').value,
+                apellidos: document.getElementById('surname').value,
+                fecha_nacimiento: document.getElementById('nacimiento').value,
+                telefono: document.getElementById('phone').value,
+                ocupacion: document.getElementById('ocupacion').value,
+                email: document.getElementById('email').value
+            },
+            links: [
+                {
+                    nombre: null,
+                    link: null
+                }
+            ],
+            lenguajes: [
+                {
+                    idioma: document.getElementById('language').value,
+                    nivel: document.getElementById('language-level').value
+                }
+                
+            ],
+            habilidades: [
+                {
+                    nombre: document.getElementById('skill').value,
+                    subhabilidades: [
+                        document.getElementById('skill-description').value
+                    ]
+                }
+            ],
+            experiencia_laboral: [
+                {
+                    compania: document.getElementById('company').value,
+                    puesto: document.getElementById('job-title').value,
+                    fecha_inicio: document.getElementById('job-start-date').value,
+                    fecha_fin: document.getElementById('job-end-date').value,
+                    resumen: document.getElementById('job-summary').value
+                }
+            ],
+            educacion: [
+                {
+                    institucion: document.getElementById('institution').value,
+                    grado: document.getElementById('degree').value,
+                    fecha_inicio: document.getElementById('education-start-date').value,
+                    fecha_fin: document.getElementById('education-end-date').value,
+                    resumen: document.getElementById('education-description').value
+                }
+            ]  
+        };
+        // Convertir a JSON
+        const jsonData = JSON.stringify(data);
+
+        fetch('/curriculums/editar/{{ id }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: jsonData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status == "success") {
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error', error);
+        });
+    }
 </script>
 
 </body>

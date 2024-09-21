@@ -47,11 +47,22 @@ def obtenerCV(id_curriculum):
     # TODO
     return
 
-def actualizarCV(id_curriculum, file):
-    # TODO: El GEstor debe convertir los datos a JSON
-    
-    estado = ConectorDBCurriculums.actualizarCV(id_curriculum, file)
-    return
+def actualizarCV(id_curriculum, datos):
+    # Convertir los datos a una cadena JSON
+    json_data = json.dumps(datos)
+
+    # Llamar al método de actualización en ConectorDBCurriculums
+    estado = ConectorDBCurriculums.actualizarCV(id_curriculum, json_data)
+    if estado:
+        return jsonify({
+            'status': 'success',
+            'message': '¡Curriculum actualizado correctamente! ✅'
+        })
+    else:
+        return jsonify({
+                'status': 'error',
+                'message': 'Error al actualizar el currículum. ⚠'
+        })
 
 def eliminarCV(id_curriculum):
     estado = ConectorDBCurriculums.eliminarCV(id_curriculum)
@@ -82,7 +93,7 @@ def exportar(id_curriculum, formato):
 def getJsonEjemplo():
     return {
         "datos_personales": {
-            "nombre": "Diego Uriel",
+            "nombre": "Diego uriel",
             "apellidos": "Vazquez Ramirez",
             "fecha_nacimiento": "02/09/00",
             "telefono": "0011226644",

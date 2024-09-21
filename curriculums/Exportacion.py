@@ -55,6 +55,6 @@ def exportarPDF(nombre_pt, nombre_cv, datos):
         
         # Enviar el archivo PDF como respuesta
         return send_file(pdf_buffer,
-                         #as_attachment=True,
+                         #as_attachment=True, # Descargar directamente en la pc
                          download_name=f'{nombre_cv}.pdf',
                          mimetype='application/pdf')

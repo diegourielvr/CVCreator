@@ -55,9 +55,19 @@ def obtenerCV(id_curriculum):
     except mysql.connector.Error as err:
         return False
 
-def actualizarCV(id_curriculum, file):
-    #TODO
-    return
+def actualizarCV(id_curriculum, json_data):
+    sql = """
+    UPDATE curriculums
+    SET archivo_json = %s
+    WHERE id_curriculum = %s
+    """
+    try:
+        cursor.execute(sql, (json_data, id_curriculum))
+        conexion.commit()
+        return cursor.rowcount > 0
+    except mysql.connector.Error as err:
+        print(f"Error al actualizar el currículum: {err}")
+        return False
 
 def eliminarCV(id_curriculum):
     try:

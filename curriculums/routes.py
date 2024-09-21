@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, session, url_for
+from flask import Blueprint, jsonify, redirect, render_template, request, session, url_for
 from curriculums import GestorCurriculums
 from util import GestorSesion
 from markupsafe import escape
@@ -32,14 +32,19 @@ def crear():
 def editar(id_curriculum):
     if not GestorSesion.usuarioLogeado():
         return redirect(url_for('principal.index'))
+
     id = escape(id_curriculum)
+
     if request.method == 'GET':
-        # Obtener la informacion de curriculum y pasarla al render para completar el html
+        # Obtener la información del currículum y pasarla al render para completar el HTML
         cv = GestorCurriculums.obtenerCV(id)
-        return render_template('edicion.html', id=id)
-    # editar/id methods == "post"
-    datos = None
-    estado = GestorCurriculums.actualizarCV(id, datos)
+        return render_template('edicion.html', id=id, cv=cv)
+
+    if request.method == 'POST':
+            # Extraer datos JSON del cuerpo de la solicitud
+        datos = request.get_json()
+        # GUardar los cambios en la BD
+        return GestorCurriculums.actualizarCV(id_curriculum, datos)
 
 @curriculums_bp.route("/eliminar/<id_curriculum>", methods=['GET', 'POST'])
 def eliminar(id_curriculum):
