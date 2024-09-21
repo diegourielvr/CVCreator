@@ -55,6 +55,19 @@ def eliminar(id_curriculum):
         id = escape(id_curriculum)
         return GestorCurriculums.eliminarCV(id)
     # ¿¿ Solo deberia eliminar esta ruyta?? ?_?
+
+@curriculums_bp.route("/previsualizar/<id_curriculum>")
+def previsualizar(id_curriculum):
+    if not GestorSesion.usuarioLogeado():
+        return redirect(url_for('principal.index'))
+
+    estado, respuesta = GestorCurriculums.exportar(id_curriculum, "pdf")
+    if estado:
+        return respuesta # Devuelve el archivo
+    else:
+        return render_template('notificacion.html', mensaje=respuesta)
+    
+    
     
 @curriculums_bp.route("/exportar/<id_curriculum>", methods=['GET', 'POST'])
 def exportar(id_curriculum):

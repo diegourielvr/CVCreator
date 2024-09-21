@@ -14,10 +14,12 @@
 
 <div class="buttons-bar">
     <div class="buttons-left">
-        <button class="back-button">Regresar</button>
+        <a href="{{ url_for('curriculums.home') }}">
+            <button class="back-button">Regresar</button>
+        </a>
     </div>
     <div class="buttons-right">
-        <button onclick="Vista()">Vista Previa</button> <!--  -->
+        <button id="compilar-btn" onclick="compilar()">Compilar</button> <!--  -->
         <a href="{{ url_for('curriculums.exportar', id_curriculum=id) }}">
             <button>Exportar</button>
         </a>
@@ -98,8 +100,9 @@
     </div>
 
     <div class="preview-panel">
-        <h2>Vista Previa id: {{ id }}</h2>
         <!-- Aquí se muestra la vista previa del CV -->
+        <!-- <iframe id="pdfFrame" src="{{ url_for('curriculums.previsualizar', id_curriculum=id) }}" frameborder="0"></iframe> -->
+        <iframe id="pdfFrame" src="" frameborder="0"></iframe>
     </div>
 </div>
 
@@ -192,6 +195,11 @@
         .catch(error => {
             console.error('Error', error);
         });
+    }
+    function compilar() {
+        const url = "{{ url_for('curriculums.previsualizar', id_curriculum=id) }}";
+        // Actualizar el src del iframe con la nueva URL
+        document.getElementById('pdfFrame').src = url;
     }
 </script>
 
