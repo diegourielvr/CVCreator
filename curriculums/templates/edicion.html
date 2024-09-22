@@ -37,56 +37,32 @@
                 <span>▲</span>
             </div>
             <div class="form-body">
-                <input type="text" id="name" placeholder="Nombre(s)" value="{{ cv.datos_personales.nombre if cv.datos_personales else '' }}" required>
-                <input type="text" id="surname" placeholder="Apellidos" value="{{ cv.datos_personales.apellidos if cv.datos_personales else '' }}" required>
-                <input type="text" id="ocupacion" placeholder="Ocupación" value="{{ cv.datos_personales.ocupacion if cv.datos_personales else '' }}">
+                <input type="text" name="nombre"" id="name" placeholder="Nombre(s)" value="{{ cv.datos_personales.nombre if cv.datos_personales else '' }}" required>
+                <input type="text" name="apellidos" id="surname" placeholder="Apellidos" value="{{ cv.datos_personales.apellidos if cv.datos_personales else '' }}" required>
+                <input type="text" name="ocupacion" id="ocupacion" placeholder="Ocupación" value="{{ cv.datos_personales.ocupacion if cv.datos_personales else '' }}">
                 <label for="nacimiento">Fecha de nacimiento</label>
-                <input type="date" class="custom-date" id="nacimiento" value="{{ cv.datos_personales.fecha_nacimiento if cv.datos_personales else '' }}">
-                <input type="text" id="phone" placeholder="Teléfono" value="{{ cv.datos_personales.telefono if cv.datos_personales else '' }}">
-                <input type="email" id="email" placeholder="Correo electrónico" value="{{ cv.datos_personales.email if cv.datos_personales else '' }}">
+                <input type="date" name="fecha_nacimiento" class="custom-date" id="nacimiento" value="{{ cv.datos_personales.fecha_nacimiento if cv.datos_personales else '' }}">
+                <input type="tel" name="telefono" id="phone" placeholder="Teléfono" value="{{ cv.datos_personales.telefono if cv.datos_personales else '' }}">
+                <input type="email" name="email" id="email" placeholder="Correo electrónico" value="{{ cv.datos_personales.email if cv.datos_personales else '' }}">
             </div>
         </div>
 
-        <div class="form-panel" id="job-experience">
-            <div class="form-header" onclick="toggleSection('job-experience')">
-                Experiencia Laboral
-                <span>▲</span>
-            </div>
-            <div class="form-body">
-                <input type="text" id="company" placeholder="Compañía" value="{{ cv.experiencia_laboral[0].compania if cv.experiencia_laboral else '' }}">
-                <input type="text" id="job-title" placeholder="Puesto" value="{{ cv.experiencia_laboral[0].puesto if cv.experiencia_laboral else '' }}">
-                <label for="job-start-date">Fecha de inicio</label>
-                <input type="date" class="custom-date" id="job-start-date" value="{{ cv.experiencia_laboral[0].fecha_inicio if cv.experiencia_laboral else '' }}">
-                <label for="job-end-date">Fecha de finalización</label>
-                <input type="date" class="custom-date" id="job-end-date" value="{{ cv.experiencia_laboral[0].fecha_fin if cv.experiencia_laboral else '' }}">
-                <textarea id="job-summary" placeholder="Tarea / Resumen">{{ cv.experiencia_laboral[0].resumen if cv.experiencia_laboral else '' }}</textarea>
-            </div>
+        <!-- Seccion de experiencias laborales -->
+        <div class="seccion" id="experienciasLaborales">
         </div>
-        <div class="form-panel" id="education-info">
-            <div class="form-header" onclick="toggleSection('education-info')">
-                Educación
-                <span>▲</span>
-            </div>
-            <div class="form-body">
-                <input type="text" id="institution" placeholder="Institución" value="{{ cv.educacion[0].institucion if cv.educacion else '' }}">
-                <input type="text" id="degree" placeholder="Carrera" value="{{ cv.educacion[0].grado if cv.educacion else '' }}">
-                <label for="educacion-start-date">Fecha de inicio</label>
-                <input type="date" class="custom-date" id="education-start-date" value="{{ cv.educacion[0].fecha_inicio if cv.educacion else '' }}">
-                <label for="educacion-end-date">Fecha de finalización</label>
-                <input type="date" class="custom-date" id="education-end-date" value="{{ cv.educacion[0].fecha_fin if cv.educacion else '' }}">
-                <textarea id="education-description" placeholder="Descripción">{{ cv.educacion[0].resumen if cv.educacion else '' }}</textarea>
-            </div>
+        <button type="button" class="agregarCampo" id="agregarExperiencia">Añadir trabajo</button>
+
+        <!-- Seccion de educacion-->
+        <div class="seccion" id="seccionEducacion">
         </div>
-        <div class="form-panel" id="habilidad-info">
-            <div class="form-header" onclick="toggleSection('habilidad-info')">
-                Habilidades
-                <span>▲</span>
-            </div>
-            <div class="form-body">
-                <input type="text" id="skill" placeholder="Habilidad" value="{{ cv.habilidades[0].nombre if cv.habilidades else '' }}">
-                <input type="text" id="skill-description" placeholder="Descripción" value="{{ cv.habilidades[0].subhabilidades[0] if cv.habilidades and cv.habilidades[0].subhabilidades else '' }}">
-            </div>
+        <button type="button" class="agregarCampo" id="agregarEducacion">Añadir educacion</button>
+
+        <!-- Seccion de habilidades-->
+        <div class="seccion" id="seccionHabilidad">
         </div>
+        <button type="button" class="agregarCampo" id="agregarHabilidad">Añadir habilidad</button>
+
+        <!-- seccion de idiomas -->
         <div class="form-panel" id="lenguaje-info">
             <div class="form-header" onclick="toggleSection('lenguaje-info')">
                 Idioma
@@ -116,6 +92,153 @@
 </div>
 
 <script>
+    // cargar datos del json
+    const datosCurriculum = {{ cv|tojson }};
+    datosCurriculum.experiencia_laboral.forEach((experiencia, index) => {
+        const nuevaExperiencia = `
+            <div class="form-panel" id="job-experience-${index+1}">
+                <div class="form-header" onclick="toggleSection('job-experience-${index+1}')">
+                    Experiencia Laboral
+                    <span>▲</span>
+                </div>
+                <div class="eliminar" onclick="eliminarSeccion('job-experience-${index+1}')">
+                    <span>X</span>
+                </div>
+                <div class="form-body">
+                    <input type="text" name="compania" id="company" placeholder="Compañía" value="${experiencia.compania}">
+                    <input type="text" name="puesto" id="job-title" placeholder="Puesto" value="${experiencia.puesto}">
+                    <label for="job-start-date">Fecha de inicio</label>
+                    <input type="date" name="fecha_inicio" class="custom-date" id="job-start-date" value="${experiencia.fecha_inicio}">
+                    <label for="job-end-date">Fecha de finalización</label>
+                    <input type="date" name="fecha_fin" class="custom-date" id="job-end-date" value="${experiencia.fecha_fin}">
+                    <textarea id="job-summary" name="resumen" placeholder="Tarea / Resumen">${experiencia.resumen}</textarea>
+                </div>
+            </div>
+        `;
+        document.getElementById('experienciasLaborales').insertAdjacentHTML('beforeend', nuevaExperiencia);
+    });
+    datosCurriculum.educacion.forEach((educacion, index) => {
+        const nuevaEducacion = `
+            <div class="form-panel" id="education-info-${index+1}">
+                <div class="form-header" onclick="toggleSection('education-info-${index+1}')">
+                    Educación
+                    <span>▲</span>
+                </div>
+                <div class="eliminar" onclick="eliminarSeccion('education-info-${index+1}')">
+                    <span>X</span>
+                </div>
+                <div class="form-body">
+                    <input type="text" name="institucion" id="institution" placeholder="Institución" value="${educacion.institucion}">
+                    <input type="text" name="grado" id="degree" placeholder="Carrera" value="${educacion.grado}">
+                    <label for="educacion-start-date">Fecha de inicio</label>
+                    <input type="date" name="fecha_inicio" class="custom-date" id="education-start-date" value="${educacion.fecha_inicio}">
+                    <label for="educacion-end-date">Fecha de finalización</label>
+                    <input type="date" name="fecha_fin" class="custom-date" id="education-end-date" value="${educacion.fecha_fin}">
+                    <textarea name="resumen" id="education-description" placeholder="Descripción">${educacion.resumen}</textarea>
+                </div>
+            </div>
+        `;
+        document.getElementById('seccionEducacion').insertAdjacentHTML('beforeend', nuevaEducacion);
+    });
+    datosCurriculum.habilidades.forEach((habilidad, index) => {
+        const nuevaHabilidad = `
+            <div class="form-panel" id="habilidad-info-${index+1}">
+                <div class="form-header" onclick="toggleSection('habilidad-info-${index+1}')">
+                    Habilidades
+                    <span>▲</span>
+                </div>
+                <div class="eliminar" onclick="eliminarSeccion('habilidad-info-${index+1}')">
+                    <span>X</span>
+                </div>
+                <div class="form-body">
+                    <input type="text" name="nombre" id="skill" placeholder="Habilidad" value="${habilidad.nombre}">
+                    <input type="text" name="resumen" id="skill-description" placeholder="Descripción" value="${habilidad.resumen}">
+                </div>
+            </div>
+        `;
+        document.getElementById('seccionHabilidad').insertAdjacentHTML('beforeend', nuevaHabilidad);
+    });
+
+
+    // crear nuevos campo de secciones
+    let contadorExperiencia = 1;
+    document.getElementById('agregarExperiencia').addEventListener('click', function() {
+        contadorExperiencia++;
+        const nuevaExperiencia = `
+            <div class="form-panel" id="job-experience-${contadorExperiencia}">
+                <div class="form-header" onclick="toggleSection('job-experience-${contadorExperiencia}')">
+                    Experiencia Laboral
+                    <span>▲</span>
+                </div>
+                <div class="eliminar" onclick="eliminarSeccion('job-experience-${contadorExperiencia}')">
+                    <span>X</span>
+                </div>
+                <div class="form-body">
+                    <input type="text" name="compania" id="company" placeholder="Compañía" value="">
+                    <input type="text" name="puesto" id="job-title" placeholder="Puesto" value="">
+                    <label for="job-start-date">Fecha de inicio</label>
+                    <input type="date" name="fecha_inicio" class="custom-date" id="job-start-date" value="">
+                    <label for="job-end-date">Fecha de finalización</label>
+                    <input type="date" name="fecha_fin" class="custom-date" id="job-end-date" value="">
+                    <textarea id="job-summary" name="resumen" placeholder="Tarea / Resumen"></textarea>
+                </div>
+            </div>
+        `;
+        document.getElementById('experienciasLaborales').insertAdjacentHTML('beforeend', nuevaExperiencia);
+    });
+    let contadorEducacion = 1;
+    document.getElementById('agregarEducacion').addEventListener('click', function() {
+        contadorEducacion++;
+        const nuevaEducacion = `
+            <div class="form-panel" id="education-info-${contadorEducacion}">
+                <div class="form-header" onclick="toggleSection('education-info-${contadorEducacion}')">
+                    Educación
+                    <span>▲</span>
+                </div>
+                <div class="eliminar" onclick="eliminarSeccion('education-info-${contadorEducacion}')">
+                    <span>X</span>
+                </div>
+                <div class="form-body">
+                    <input type="text" name="institucion" id="institution" placeholder="Institución" value="">
+                    <input type="text" name="grado" id="degree" placeholder="Carrera" value="">
+                    <label for="educacion-start-date">Fecha de inicio</label>
+                    <input type="date" name="fecha_inicio" class="custom-date" id="education-start-date" value="">
+                    <label for="educacion-end-date">Fecha de finalización</label>
+                    <input type="date" name="fecha_fin" class="custom-date" id="education-end-date" value="">
+                    <textarea name="resumen" id="education- description" placeholder="Descripción"></textarea>
+                </div>
+            </div>
+        `;
+        document.getElementById('seccionEducacion').insertAdjacentHTML('beforeend', nuevaEducacion);
+    });
+    let contadorHabilidad = 1;
+    document.getElementById('agregarHabilidad').addEventListener('click', function() {
+        contadorHabilidad++;
+        const nuevaHabilidad = `
+            <div class="form-panel" id="habilidad-info-${contadorHabilidad}">
+                <div class="form-header" onclick="toggleSection('habilidad-info-${contadorHabilidad}')">
+                    Habilidades
+                    <span>▲</span>
+                </div>
+                <div class="eliminar" onclick="eliminarSeccion('habilidad-info-${contadorHabilidad}')">
+                    <span>X</span>
+                </div>
+                <div class="form-body">
+                    <input type="text" name="nombre" id="skill" placeholder="Habilidad" value="">
+                    <input type="text" name="resumen" id="skill-description" placeholder="Descripción" value="">
+                </div>
+            </div>
+        `;
+        document.getElementById('seccionHabilidad').insertAdjacentHTML('beforeend', nuevaHabilidad);
+    });
+
+    function eliminarSeccion(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.remove()
+        }
+    }
+
     function toggleSection(sectionId) {
         const section = document.getElementById(sectionId);
         const formBody = section.querySelector('.form-body');
@@ -146,16 +269,38 @@
         }
     }
     function saveToJson() {
+        const datosPersonales = {}
+        document.querySelectorAll('#personal-info input').forEach(input => {
+            datosPersonales[input.name] = input.value;
+        });
+        const experienciasLaborales = [];
+        document.querySelectorAll('#experienciasLaborales .form-panel').forEach(experiencia => {
+            const campos = {};
+            experiencia.querySelectorAll('input, textarea').forEach(input => {
+                campos[input.name] = input.value;
+            });
+            experienciasLaborales.push(campos);
+        });
+        const seccionEducacion = [];
+        document.querySelectorAll('#seccionEducacion .form-panel').forEach(educacion => {
+            const campos = {};
+            educacion.querySelectorAll('input, textarea').forEach(input => {
+                campos[input.name] = input.value;
+            });
+            seccionEducacion.push(campos);
+        });
+        const seccionHabilidad = [];
+        document.querySelectorAll('#seccionHabilidad .form-panel').forEach(habilidad => {
+            const campos = {};
+            habilidad.querySelectorAll('input, textarea').forEach(input => {
+                campos[input.name] = input.value;
+            });
+            seccionHabilidad.push(campos);
+        });
+
         // Recoger datos de los formularios
         const data = {
-            datos_personales: {
-                nombre: document.getElementById('name').value,
-                apellidos: document.getElementById('surname').value,
-                fecha_nacimiento: document.getElementById('nacimiento').value,
-                telefono: document.getElementById('phone').value,
-                ocupacion: document.getElementById('ocupacion').value,
-                email: document.getElementById('email').value
-            },
+            datos_personales: datosPersonales,
             links: [
                 {
                     nombre: document.getElementById('link-nombre').value,
@@ -168,32 +313,9 @@
                     nivel: document.getElementById('language-level').value
                 }
             ],
-            habilidades: [
-                {
-                    nombre: document.getElementById('skill').value,
-                    subhabilidades: [
-                        document.getElementById('skill-description').value
-                    ]
-                }
-            ],
-            experiencia_laboral: [
-                {
-                    compania: document.getElementById('company').value,
-                    puesto: document.getElementById('job-title').value,
-                    fecha_inicio: document.getElementById('job-start-date').value,
-                    fecha_fin: document.getElementById('job-end-date').value,
-                    resumen: document.getElementById('job-summary').value
-                }
-            ],
-            educacion: [
-                {
-                    institucion: document.getElementById('institution').value,
-                    grado: document.getElementById('degree').value,
-                    fecha_inicio: document.getElementById('education-start-date').value,
-                    fecha_fin: document.getElementById('education-end-date').value,
-                    resumen: document.getElementById('education-description').value
-                }
-            ]  
+            habilidades: seccionHabilidad,
+            experiencia_laboral: experienciasLaborales,
+            educacion: seccionEducacion
         };
         // Convertir a JSON
         const jsonData = JSON.stringify(data);

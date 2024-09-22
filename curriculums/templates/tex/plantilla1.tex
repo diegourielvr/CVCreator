@@ -180,11 +180,9 @@
         {%- endraw -%}{% for habilidad in habilidades %}{% raw %}
         \subsection*{\small {% endraw %}{{ habilidad.nombre }}{% raw %}}
         \begin{tabularx}{\textwidth}{cY}
-            {%- endraw -%}{% for subhabilidad in habilidad.subhabilidades %}{% raw %}
-            {%- endraw -%}{% if subhabilidad %}{% raw %}
-            \tiny{\faChevronRight}        & {% endraw %}{{ subhabilidad }}{% raw %} \\
+            {%- endraw -%}{% if habilidad.resumen %}{% raw %}
+            \tiny{\faChevronRight}        & {% endraw %}{{ habilidad.resumen }}{% raw %} \\
             {%- endraw -%}{% endif %}{% raw %}
-            {%- endraw -%}{% endfor %}{% raw %}
         \end{tabularx}
         {%- endraw -%}{% endfor %}{% raw %}
         \vspace{1pt} \\

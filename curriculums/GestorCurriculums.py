@@ -167,19 +167,11 @@ def getJsonEjemplo():
         "habilidades": [
             {
                 "nombre": "Base de datos",
-                "subhabilidades": [
-                    "Mysql",
-                    "Postgresql",
-                    "MongoDB"
-                ]
+                "resumen": "mysql"
             },
             {
                 "nombre": "Lenguajes de programación",
-                "subhabilidades": [
-                    "Python",
-                    "C",
-                    "Java"
-                ]
+                "resumen": "hola"
             },
         ],
         "experiencia_laboral": [

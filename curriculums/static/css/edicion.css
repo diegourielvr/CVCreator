@@ -64,7 +64,23 @@ body {
     border-radius: 5px;
     padding: 0px;
 }
+.container .form-container .agregarCampo {
+    width: fit-content;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--color-gris);
+    color: var(--color-primario);
+    cursor: pointer;
+    font-size: var(--size-p);
+}
+.container .form-container .agregarCampo:hover {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    color: var(--color-secundario);
 
+}
 .form-panel {
     background-color: var(--color-gris);
     padding: 20px;
@@ -72,7 +88,6 @@ body {
     overflow: hidden;
     flex-shrink: 0;
 }
-
 .form-header { /* titulo de cada panel */
     display: flex;
     justify-content: space-between;
@@ -82,7 +97,10 @@ body {
     font-weight: normal;
     color: var(--color-primario);
 }
-
+.form-container .seccion .eliminar {
+    cursor: pointer;
+    font-size: var(--size-encabezado2);
+}
 .form-body {
     margin-top: 20px;
 }
