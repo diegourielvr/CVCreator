@@ -19,12 +19,13 @@
         </a>
     </div>
     <div class="buttons-right">
+        <button class="guardar" onclick="saveToJson()">Guardar</button>
         <button id="compilar-btn" onclick="compilar()">Compilar</button> <!--  -->
         <a href="{{ url_for('curriculums.exportar', id_curriculum=id) }}">
             <button>Exportar</button>
         </a>
-        <button>Eliminar</button>
-        <button onclick="saveToJson()">Guardar</button>
+        <button id="eliminar-btn" onclick="eliminarCurriculum()">Eliminar</button>
+        <button id="togglePreview" onclick="togglePreview()">→</button> <!--  -->
     </div>
 </div>
 
@@ -33,73 +34,81 @@
         <div class="form-panel" id="personal-info">
             <div class="form-header" onclick="toggleSection('personal-info')">
                 Datos Personales
-                <span>▼</span>
+                <span>▲</span>
             </div>
             <div class="form-body">
-                <input type="text" id="name" placeholder="Nombre(s)">
-                <input type="text" id="surname" placeholder="Apellidos">
-                <input type="text" id="ocupacion" placeholder="Ocupación">
-                <h2>fecha de nacimiento<h2></h2>
-                <input type="date" id="nacimiento">
-                <input type="text" id="phone" placeholder="Teléfono">
-                <input type="email" id="email" placeholder="Correo electrónico">
+                <input type="text" id="name" placeholder="Nombre(s)" value="{{ cv.datos_personales.nombre if cv.datos_personales else '' }}">
+                <input type="text" id="surname" placeholder="Apellidos" value="{{ cv.datos_personales.apellidos if cv.datos_personales else '' }}">
+                <input type="text" id="ocupacion" placeholder="Ocupación" value="{{ cv.datos_personales.ocupacion if cv.datos_personales else '' }}">
+                <label for="nacimiento">Fecha de nacimiento</label>
+                <input type="date" class="custom-date" id="nacimiento" value="{{ cv.datos_personales.fecha_nacimiento if cv.datos_personales else '' }}">
+                <input type="text" id="phone" placeholder="Teléfono" value="{{ cv.datos_personales.telefono if cv.datos_personales else '' }}">
+                <input type="email" id="email" placeholder="Correo electrónico" value="{{ cv.datos_personales.email if cv.datos_personales else '' }}">
             </div>
         </div>
 
         <div class="form-panel" id="job-experience">
             <div class="form-header" onclick="toggleSection('job-experience')">
                 Experiencia Laboral
-                <span>▼</span>
+                <span>▲</span>
             </div>
             <div class="form-body">
-                <input type="text" id="job-title" placeholder="Puesto">
-                <input type="text" id="company" placeholder="Compañía">
-                <h2>fecha de inicio<h2></h2>
-                <input type="date" id="job-start-date">
-                <h2>fecha de finalización<h2></h2>
-                <input type="date" id="job-end-date">
-                <textarea id="job-summary" placeholder="Tarea / Resumen" rows="4"></textarea>
+                <input type="text" id="job-title" placeholder="Puesto" value="{{ cv.experiencia_laboral[0].puesto if cv.experiencia_laboral else '' }}">
+                <input type="text" id="company" placeholder="Compañía" value="{{ cv.experiencia_laboral[0].compania if cv.experiencia_laboral else '' }}">
+                <label for="job-start-date">Fecha de inicio</label>
+                <input type="date" class="custom-date" id="job-start-date" value="{{ cv.experiencia_laboral[0].fecha_inicio if cv.experiencia_laboral else '' }}">
+                <label for="job-end-date">Fecha de finalización</label>
+                <input type="date" class="custom-date" id="job-end-date" value="{{ cv.experiencia_laboral[0].fecha_fin if cv.experiencia_laboral else '' }}">
+                <textarea id="job-summary" placeholder="Tarea / Resumen">{{ cv.experiencia_laboral[0].resumen if cv.experiencia_laboral else '' }}</textarea>
             </div>
         </div>
         <div class="form-panel" id="education-info">
             <div class="form-header" onclick="toggleSection('education-info')">
                 Educación
-                <span>▼</span>
+                <span>▲</span>
             </div>
             <div class="form-body">
-                <input type="text" id="institution" placeholder="Institucion">
-                <input type="text" id="degree" placeholder="Grado">
-                <h2>fecha de inicio<h2>
-                <input type="date" id="education-start-date">
-                <h2>fecha de finalización<h2></h2>
-                <input type="date" id="education-end-date">
-                <textarea id="education-description" placeholder="descripción" rows="4"></textarea>
+                <input type="text" id="institution" placeholder="Institución" value="{{ cv.educacion[0].institucion if cv.educacion else '' }}">
+                <input type="text" id="degree" placeholder="Grado" value="{{ cv.educacion[0].grado if cv.educacion else '' }}">
+                <label for="educacion-start-date">Fecha de inicio</label>
+                <input type="date" class="custom-date" id="education-start-date" value="{{ cv.educacion[0].fecha_inicio if cv.educacion else '' }}">
+                <label for="educacion-end-date">Fecha de finalización</label>
+                <input type="date" class="custom-date" id="education-end-date" value="{{ cv.educacion[0].fecha_fin if cv.educacion else '' }}">
+                <textarea id="education-description" placeholder="Descripción">{{ cv.educacion[0].resumen if cv.educacion else '' }}</textarea>
             </div>
         </div>
         <div class="form-panel" id="habilidad-info">
             <div class="form-header" onclick="toggleSection('habilidad-info')">
-                Habilidad
-                <span>▼</span>
+                Habilidades
+                <span>▲</span>
             </div>
             <div class="form-body">
-                <input type="text" id="skill" placeholder="Habilidad">
-                <input type="text" id="skill-description" placeholder="Descripción">
+                <input type="text" id="skill" placeholder="Habilidad" value="{{ cv.habilidades[0].nombre if cv.habilidades else '' }}">
+                <input type="text" id="skill-description" placeholder="Descripción" value="{{ cv.habilidades[0].subhabilidades[0] if cv.habilidades and cv.habilidades[0].subhabilidades else '' }}">
             </div>
         </div>
         <div class="form-panel" id="lenguaje-info">
             <div class="form-header" onclick="toggleSection('lenguaje-info')">
-                Lenguaje
-                <span>▼</span>
+                Idioma
+                <span>▲</span>
             </div>
             <div class="form-body">
-                <input type="text" id="language" placeholder="Lenguaje">
-                <input type="text" id="language-level" placeholder="Nivel">
-                <input type="text" id="language-description" placeholder="Descripción">
+                <input type="text" id="language" placeholder="Lenguaje" value="{{ cv.lenguajes[0].idioma if cv.lenguajes else '' }}">
+                <input type="text" id="language-level" placeholder="Nivel" value="{{ cv.lenguajes[0].nivel if cv.lenguajes else '' }}">
+            </div>
+        </div>
+        <div class="form-panel" id="links-info">
+            <div class="form-header" onclick="toggleSection('links-info')">
+                Links
+                <span>▲</span>
+            </div>
+            <div class="form-body">
+                <input type="text" id="link-nombre" placeholder="Nombre" value="{{ cv.links[0].nombre if cv.links else '' }}">
+                <input type="text" id="link" placeholder="Link" value="{{ cv.links[0].link if cv.links else '' }}">
             </div>
         </div>
     </div>
-
-    <div class="preview-panel">
+    <div class="preview-panel" id="previewPanel">
         <!-- Aquí se muestra la vista previa del CV -->
         <!-- <iframe id="pdfFrame" src="{{ url_for('curriculums.previsualizar', id_curriculum=id) }}" frameborder="0"></iframe> -->
         <iframe id="pdfFrame" src="" frameborder="0"></iframe>
@@ -123,6 +132,19 @@
             icon.textContent = '▼'; // Cambiar el icono a la flecha hacia arriba
         }
     }
+    function togglePreview() {
+        const toggleButton = document.getElementById('togglePreview');
+        const previewPanel = document.getElementById('previewPanel');
+
+        // Alternar la clase 'minimized'
+        if(previewPanel.style.display === 'none'){
+            previewPanel.style.display = 'block'; // Mostrar el panel
+            toggleButton.textContent = '→'; // Cambiar el texto del botón
+        } else {
+            previewPanel.style.display = 'none'; // Ocultar el panel
+            toggleButton.textContent = '←'; // Cambiar el texto del botón
+        }
+    }
     function saveToJson() {
         // Recoger datos de los formularios
         const data = {
@@ -136,8 +158,8 @@
             },
             links: [
                 {
-                    nombre: null,
-                    link: null
+                    nombre: document.getElementById('link-nombre').value,
+                    link: document.getElementById('link').value
                 }
             ],
             lenguajes: [
@@ -145,7 +167,6 @@
                     idioma: document.getElementById('language').value,
                     nivel: document.getElementById('language-level').value
                 }
-                
             ],
             habilidades: [
                 {
@@ -200,6 +221,31 @@
         const url = "{{ url_for('curriculums.previsualizar', id_curriculum=id) }}";
         // Actualizar el src del iframe con la nueva URL
         document.getElementById('pdfFrame').src = url;
+    }
+    function eliminarCurriculum() {
+        if (confirm("¿Estás seguro de que deseas eliminar este currículum? Esta acción no se puede deshacer.")) {
+            // Enviar la solicitud de eliminación al servidor
+            fetch('/curriculums/eliminar/{{ id }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: '{{ id }}' })  // Enviar el ID del currículum
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status == "success") {
+                    alert(data.message);
+                    window.location.href = "{{ url_for('curriculums.home') }}"; // Redirigir después de eliminar
+                } else {
+                    alert("Error al eliminar: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al intentar eliminar el currículum.');
+            });
+        }
     }
 </script>
 

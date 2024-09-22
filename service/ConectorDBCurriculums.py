@@ -1,3 +1,4 @@
+import json
 import mysql.connector
 
 conexion = mysql.connector.connect(
@@ -75,9 +76,9 @@ def eliminarCV(id_curriculum):
         sql = "DELETE FROM curriculums WHERE id_curriculum = %s"
         cursor.execute(sql, (id_curriculum,))
         conexion.commit()
-        print(f"CV con id {id_curriculum} eliminado correctamente.")
+        return True
     except mysql.connector.Error as err:
-        print(f"Error al eliminar el CV: {err}")
+        return False
 
 def existeTitulo(titulo, id_usuario):
     sql = """
@@ -108,3 +109,19 @@ def existeCurriculum(id_curriculum, id_usuario):
         return False
     except mysql.connector.Error as err:
         return False
+
+def obtenerDatosJson(id_curriculum):
+    sql = """
+    SELECT archivo_json 
+    FROM curriculums
+    WHERE id_curriculum = %s
+    """
+    values = (id_curriculum,)
+    try:
+        cursor.execute(sql, values)
+        resultado = cursor.fetchone()
+        if resultado and resultado[0]:
+            return json.loads(resultado[0])  # Convertir el JSON a un diccionario
+        return {}  # Retornar un diccionario vacío si no hay datos
+    except mysql.connector.Error as err:
+        return {}

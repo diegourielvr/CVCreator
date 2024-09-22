@@ -54,7 +54,7 @@ def eliminar(id_curriculum):
     if request.method == 'POST':
         id = escape(id_curriculum)
         return GestorCurriculums.eliminarCV(id)
-    # ¿¿ Solo deberia eliminar esta ruyta?? ?_?
+    return redirect(url_for('curriculums.home'))
 
 @curriculums_bp.route("/previsualizar/<id_curriculum>")
 def previsualizar(id_curriculum):

@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #222;
+    background-color: transparent;
     color: #ddd;
     margin: 0;
     padding: 0;
@@ -15,34 +15,38 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #444;
-    margin-bottom: 10px;
+    background-color: transparent;
+    margin-bottom: 0px;
     flex-shrink: 0;
 }
 
 .buttons-left, .buttons-right {
     display: flex;
-    gap: 10px;
+    gap: 20px;
 }
-
 .buttons-bar button {
     padding: 10px 20px;
     border: none;
-    border-radius: 4px;
-    background-color: #555;
-    color: #ddd;
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--color-primario);
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    font-size: var(--size-button);
 }
 
 .buttons-bar button:hover {
-    background-color: #777;
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    transform: scale(1.1); /* Agranda el botón un 10% */
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    color: var(--color-secundario);
 }
 
 .container {
     display: flex;
     height: calc(100vh - 70px); /* Restar la altura de la barra de botones */
     padding: 20px;
+    padding-top: 0px;
     flex-grow: 1;
     overflow: hidden; /* Evitar overflow en el contenedor principal */
 }
@@ -50,65 +54,94 @@ body {
 .form-container {
     display: flex;
     flex-direction: column;
-    flex-basis: 400px;
-    margin-right: 20px;
+    flex-basis: 100%; /* ancho de formulario*/
+    margin-right: 0px;
     gap: 10px;
     overflow-y: auto;
-    background-color: #333;
-    border-radius: 8px;
-    padding: 10px;
+    scrollbar-color: var(--color-gris3) transparent;
+    scrollbar-gutter: stable;/* dejar espacio para el scroll*/
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 0px;
 }
 
 .form-panel {
-    background-color: #333;
+    background-color: var(--color-gris);
     padding: 20px;
-    border-radius: 8px;
-    transition: max-height 0.3s ease, padding 0.3s ease;
+    border-radius: 5px;
     overflow: hidden;
     flex-shrink: 0;
 }
 
-.form-header {
+.form-header { /* titulo de cada panel */
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    color: #ccc;
+    font-size: var(--size-encabezado2);
+    font-weight: normal;
+    color: var(--color-primario);
 }
 
 .form-body {
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .form-body input, .form-body textarea {
+    font-size: var(--size-p);
+    background-color: transparent;
+    outline: none;
     width: 100%;
-    padding: 10px;
+    padding: 10px 0px;
     margin-bottom: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #444;
-    color: #ddd;
+    border: 2px solid transparent;
+    color: var(--color-primerio);
+    resize: vertical; /* Permitir solo el redimensionamiento vertical */
+}
+.form-body textarea {
+    font-size: 1.2em;
+}
+.form-body label {
+    font-size: var(--size-p);
+    color: var(--color-primario);
+
+}
+.form-body input:hover, .form-body textarea:hover {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    border-bottom: 2px solid var(--color-gris3);
+}
+.form-body input:focus, .form-body textarea:focus {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    border-bottom: 2px solid var(--color-primario);
 }
 
+.form-body .custom-date {
+    font-size: 1.2em;
+    color: #ddd;
+}
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    font-size: 1.3em;
+}
 .preview-panel {
-    background-color: #333;
+    min-width: 70%;
+    background-color: var(--color-gris);
     padding: 0px;
     flex-grow: 1;
-    border-radius: 8px;
+    display: block;
+    border-radius: 5px;
     height: calc(100vh-70px);
     /* height: calc(100vh - 70px); Restar la altura de la barra de botones */
     overflow: hidden; /* Ocultar scrollbar */
 }
 .preview-panel iframe {
     width: 100%;
-    height: 100vh;
+    height: 100%;
 }
 
 .minimized {
-    max-height: 40px;
-    padding-bottom: 5px;
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    padding: 15px; /* este padding debe ser igual al del panel*/
 }
 
 .back-button {

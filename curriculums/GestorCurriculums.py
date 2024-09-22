@@ -43,9 +43,8 @@ def crearCV(titulo, id_plantilla):
         })
     
 def obtenerCV(id_curriculum):
-    cv = ConectorDBCurriculums.obtenerCV(id_curriculum)
-    # TODO
-    return
+    cv = ConectorDBCurriculums.obtenerDatosJson(id_curriculum)
+    return cv
 
 def actualizarCV(id_curriculum, datos):
     # Convertir los datos a una cadena JSON
@@ -64,10 +63,26 @@ def actualizarCV(id_curriculum, datos):
                 'message': 'Error al actualizar el currículum. ⚠'
         })
 
+
 def eliminarCV(id_curriculum):
-    estado = ConectorDBCurriculums.eliminarCV(id_curriculum)
-    # TODO: Aqui hacer las validacinoes necesarias
-    return
+    # Validar si existe el cv antes de eliminar y si le pertenece al usuario actual
+    id_usuario = GestorSesion.getIdUsuario()
+    if ConectorDBCurriculums.existeCurriculum(id_curriculum, id_usuario):
+        estado = ConectorDBCurriculums.eliminarCV(id_curriculum)
+        if estado:
+            return jsonify({
+                'status': 'success',
+                'message': '¡Curriculum eliminado correctamente! ✅'
+            })
+        else:
+            return jsonify({
+                    'status': 'error',
+                    'message': 'Error al eliminar el currículum. ⚠'
+            })
+    return jsonify({
+            'status': 'error',
+            'message': 'No existe el curriculum ❌'
+    })
 
 def exportar(id_curriculum, formato):
     id_usuario = GestorSesion.getIdUsuario()
