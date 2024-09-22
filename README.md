@@ -82,3 +82,13 @@ Solución: Mover los bloques {% raw %} y {% endraw %} a un lugar donde no genere
         {% endraw %}{% endfor %}{% raw %}
     \end{tabularx}{% endraw %}{% endfor %}{% raw %} % Aquí tampoco se generan saltos de linea
 ```
+
+2. Ocultar bloques de jinja
+
+Para ocultar bloques se puede usar el simbolo '-'
+
+```tex
+{%- endraw -%} {% raw %}
+{%- if ... -%}
+{%- endif ... -%}
+```

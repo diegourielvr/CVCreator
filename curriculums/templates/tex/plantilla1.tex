@@ -75,8 +75,8 @@
 % Change PDF Meta Info here
 {% endraw %}{% if datos_personales %}{% raw %}
 \hypersetup{
-    pdftitle={CV - {% endraw %}{{ datos_personales.nombre }}{% raw %}},
-    pdfauthor={{% endraw %}{{ datos_personales.apellidos }}{% raw %}},
+    pdftitle={CV - {% endraw %}{{ datos_personales.nombre if datos_personales.nombre else 'Sin nombre' }}{% raw %}},
+    pdfauthor={{% endraw %}{{ datos_personales.apellidos  if datos_personales.apellidos else 'Sin apellidos'}}{% raw %}},
     pdfsubject={CV}
 }
 {% endraw %}{% endif%}{% raw %}
@@ -111,13 +111,13 @@
         \color{sidetext}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % YOUR NAME, PRONOUNS, OCCUPATION(s), AND HEADSHOT
-        {% endraw %}{% if datos_personales %}{% raw %}
-        {\bfseries\scshape\HUGE {% endraw %}{{ datos_personales.nombre }}{% raw %} } \\
-        {\bfseries\scshape\Huge {% endraw %}{{ datos_personales.apellidos }}{% raw %}}
+        {%- endraw -%}{% if datos_personales -%}{% raw %}
+        {\bfseries\scshape\HUGE {% endraw %}{{ datos_personales.nombre if datos_personales.nombre else 'Nombre'}}{% raw %} } \\
+        {\bfseries\scshape\Huge {% endraw %}{{ datos_personales.apellidos if datos_personales.apellidos else 'Apellidos'}}{% raw %}}
         \vspace{.3cm} \\
-        {% endraw %}{{ datos_personales.ocupacion }}{% raw %}
+        {%- endraw -%}{{ datos_personales.ocupacion if datos_personales.ocupacion else 'Ocupacion' }}{% raw %}
         \\
-        {% endraw %}{% endif%}{% raw %}
+        {%- endraw -%}{% endif%}{% raw %}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % YOUR PERSONAL INFROMATION
         {% endraw %}{% if datos_personales %}{% raw %}
@@ -125,13 +125,19 @@
         \addcontentsline{toc}{section}{Personal info}
         \section*{\large Información personal}
         \begin{tabularx}{\textwidth}{cY}
+            {%- endraw -%}{% if datos_personales.fecha_nacimiento%}{% raw %}
             \faStarOfLife{} & {% endraw %}{{ datos_personales.fecha_nacimiento }}{% raw %} \\
+            {%- endraw -%}{% endif %}{% raw %}
+            {%- endraw -%}{% if datos_personales.telefono%}{% raw %}
             \faPhone{}      & {% endraw %}{{ datos_personales.telefono }}{% raw %} \\
+            {%- endraw -%}{% endif %}{% raw %}
+            {%- endraw -%}{% if datos_personales.email%}{% raw %}
             \faEnvelope{}   & \href{mailto:{% endraw %}{{ datos_personales.email }}{% raw %}}{{% endraw %}{{ datos_personales.email }}{% raw %}} \\
+            {%- endraw -%}{% endif %}{% raw %}
         \end{tabularx}
         \vspace{.3cm} \\
         \rule{\linewidth}{0.4pt} \\
-        {% endraw %}{% endif%}{% raw %}
+        {% endraw %}{% endif %}{% raw %}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % YOUR LINKS, YOU MAY ALSO ADD A PERSONAL WEBSITE OR PORTFOLIO
         {% endraw %}{% if links %}{% raw %}
@@ -139,9 +145,11 @@
         \addcontentsline{toc}{section}{Links}
         \section*{\large Links}
         \begin{tabular}{cl}
-            {% endraw %}{% for link in links %}{% raw %}
-            \faLink       & \href{{% endraw %}{{ link.link }}{% raw %}}{{% endraw %}{{ link.nombre }}{% raw %}} \\
-            {% endraw %}{% endfor %}{% raw %}
+            {%- endraw -%}{% for link in links %}{% raw %}
+            {%- endraw -%}{% if link.nombre %}{% raw %}
+            \faLink       & \href{{% endraw %}{{ link.link if link.link else ''}}{% raw %}}{{% endraw %}{{ link.nombre }}{% raw %}} \\
+            {%- endraw -%}{% endif %}{% raw %}
+            {%- endraw -%}{% endfor %}{% raw %}
         \end{tabular}
         \vspace{10pt} \\
         \rule{\linewidth}{0.4pt} \\
@@ -153,9 +161,11 @@
         \addcontentsline{toc}{section}{Languages}
         \section*{\large Idiomas}
         \begin{tabular}{cl}
-            {% endraw %}{% for lenguaje in lenguajes %}{% raw %}
+            {%- endraw -%}{% for lenguaje in lenguajes %}{% raw %}
+            {%- endraw -%}{% if lenguaje.idioma or lenguaje.nivel %}{% raw %}
             \faLanguage{} & {{% endraw %}{{ lenguaje.idioma }}{% raw %}} \textendash{} (Nivel: {% endraw %}{{ lenguaje.nivel }}{% raw %}) \\
-            {% endraw %}{% endfor %}{% raw %}
+            {%- endraw -%}{% endif %}{% raw %}
+            {%- endraw -%}{% endfor %}{% raw %}
         \end{tabular}
         \vspace{.3cm} \\
         \rule{\linewidth}{0.4pt} \\
@@ -166,13 +176,17 @@
         {% endraw %}{% if habilidades %}{% raw %}
         \phantomsection{}
         \addcontentsline{toc}{section}{Skills}
-        \section*{\large Habilidades}{% endraw %}{% for habilidad in habilidades %}{% raw %}
+        \section*{\large Habilidades}
+        {%- endraw -%}{% for habilidad in habilidades %}{% raw %}
         \subsection*{\small {% endraw %}{{ habilidad.nombre }}{% raw %}}
         \begin{tabularx}{\textwidth}{cY}
-            {% endraw %}{% for subhabilidad in habilidad.subhabilidades %}{% raw %}
+            {%- endraw -%}{% for subhabilidad in habilidad.subhabilidades %}{% raw %}
+            {%- endraw -%}{% if subhabilidad %}{% raw %}
             \tiny{\faChevronRight}        & {% endraw %}{{ subhabilidad }}{% raw %} \\
-            {% endraw %}{% endfor %}{% raw %}
-        \end{tabularx}{% endraw %}{% endfor %}{% raw %}
+            {%- endraw -%}{% endif %}{% raw %}
+            {%- endraw -%}{% endfor %}{% raw %}
+        \end{tabularx}
+        {%- endraw -%}{% endfor %}{% raw %}
         \vspace{1pt} \\
         \rule{\linewidth}{0.4pt} \\
         {% endraw %}{% endif%}{% raw %}
@@ -193,29 +207,45 @@
         \phantomsection{}
         \addcontentsline{toc}{section}{Work Experience}
         \section*{\scshape\Large Experiencia laboral \rule{\linewidth}{0.4pt}}
-        {% endraw %}{% for exp in experiencia_laboral %}{% raw %}
+        {%- endraw -%}{% for exp in experiencia_laboral %}{% raw %}
+        {%- endraw -%}{% if exp.compania %}{% raw %}
         {\large \textbf{{% endraw %}{{ exp.compania }}{% raw %}}} \\ 
+        {%- endraw -%}{% endif %}{% raw %}
+        {%- endraw -%}{% if exp.puesto%}{% raw %}
         {{\fontseries{medium}\selectfont {% endraw %}{{ exp.puesto }}{% raw %}}} \\
-        {\scshape\fontseries{medium}\selectfont\footnotesize {% endraw %}{{ exp.fecha_inicio }}{% raw %} \textendash{} {% endraw %}{{ exp.fecha_fin }}{% raw %}} 
+        {%- endraw -%}{% endif %}{% raw %}
+        {%- endraw -%}{% if exp.fecha_inicio or exp.fecha_fin %}{% raw %}
+        {\scshape\fontseries{medium}\selectfont\footnotesize {% endraw %}{{ exp.fecha_inicio }}{% raw %} \textendash{} {% endraw %}{{ exp.fecha_fin if exp.fecha_fin else 'Actualidad' }}{% raw %}} 
+        {%- endraw -%}{% endif %}{% raw %}
+        {%- endraw -%}{% if exp.resumen %}{% raw %}
         \begin{itemize}
             \setlength{\itemsep}{-3pt}
             \item {% endraw %}{{ exp.resumen }}{% raw %} 
         \end{itemize}
-        {% endraw %}{% endfor %}{% raw %}
-        {% endraw %}{% endif%}{% raw %}
+        {%- endraw -%}{% endif %}{% raw %}
+        {%- endraw -%}{% endfor %}{% raw %}
+        {%- endraw -%}{% endif%}{% raw %}
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % EDUCATION
         {% endraw %}{% if educacion %}{% raw %}
         \phantomsection{}
         \addcontentsline{toc}{section}{Education}
         \section*{\scshape\Large Educación \rule{\linewidth}{0.4pt}}
-        {% endraw %}{% for edu in educacion %}{% raw %}
+        {%- endraw -%}{% for edu in educacion %}{% raw %}
+        {%- endraw -%}{% if edu.institucion %}{% raw %}
         {\large \textbf{{% endraw %}{{ edu.institucion }}{% raw %}}} \\
-        {\scshape\fontseries{sl}\selectfont\footnotesize {% endraw %}{{ edu.fecha_inicio }}{% raw %} \textendash{} {% endraw %}{{ edu.fecha_fin }}{% raw %}} \\
-        {Degree: {% endraw %}{{ edu.grado }}{% raw %}} \\[1ex]
+        {%- endraw -%}{% endif%}{% raw %}
+        {%- endraw -%}{% if edu.fecha_inicio or edu.fecha_fin %}{% raw %}
+        {\scshape\fontseries{sl}\selectfont\footnotesize {% endraw %}{{ edu.fecha_inicio }}{% raw %} \textendash{} {% endraw %}{{ edu.fecha_fin if edu.fecha_fin else 'Actualidad' }}{% raw %}} \\
+        {%- endraw -%}{% endif %}{% raw %}
+        {%- endraw -%}{% if edu.grado %}{% raw %}
+        {Carrera: {% endraw %}{{ edu.grado }}{% raw %}} \\[1ex]
+        {%- endraw -%}{% endif%}{% raw %}
+        {%- endraw -%}{% if edu.resumen%}{% raw %}
         {\footnotesize {% endraw %}{{ edu.resumen }}{% raw %}} \\
-        {% endraw %}{% endfor %}{% raw %}
-        {% endraw %}{% endif%}{% raw %}
+        {%- endraw -%}{% endif%}{% raw %}
+        {%- endraw -%}{% endfor %}{% raw %}
+        {%- endraw -%}{% endif%}{% raw %}
     \end{minipage}
 }
 \end{document}

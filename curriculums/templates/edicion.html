@@ -37,8 +37,8 @@
                 <span>▲</span>
             </div>
             <div class="form-body">
-                <input type="text" id="name" placeholder="Nombre(s)" value="{{ cv.datos_personales.nombre if cv.datos_personales else '' }}">
-                <input type="text" id="surname" placeholder="Apellidos" value="{{ cv.datos_personales.apellidos if cv.datos_personales else '' }}">
+                <input type="text" id="name" placeholder="Nombre(s)" value="{{ cv.datos_personales.nombre if cv.datos_personales else '' }}" required>
+                <input type="text" id="surname" placeholder="Apellidos" value="{{ cv.datos_personales.apellidos if cv.datos_personales else '' }}" required>
                 <input type="text" id="ocupacion" placeholder="Ocupación" value="{{ cv.datos_personales.ocupacion if cv.datos_personales else '' }}">
                 <label for="nacimiento">Fecha de nacimiento</label>
                 <input type="date" class="custom-date" id="nacimiento" value="{{ cv.datos_personales.fecha_nacimiento if cv.datos_personales else '' }}">
@@ -53,8 +53,8 @@
                 <span>▲</span>
             </div>
             <div class="form-body">
-                <input type="text" id="job-title" placeholder="Puesto" value="{{ cv.experiencia_laboral[0].puesto if cv.experiencia_laboral else '' }}">
                 <input type="text" id="company" placeholder="Compañía" value="{{ cv.experiencia_laboral[0].compania if cv.experiencia_laboral else '' }}">
+                <input type="text" id="job-title" placeholder="Puesto" value="{{ cv.experiencia_laboral[0].puesto if cv.experiencia_laboral else '' }}">
                 <label for="job-start-date">Fecha de inicio</label>
                 <input type="date" class="custom-date" id="job-start-date" value="{{ cv.experiencia_laboral[0].fecha_inicio if cv.experiencia_laboral else '' }}">
                 <label for="job-end-date">Fecha de finalización</label>
@@ -69,7 +69,7 @@
             </div>
             <div class="form-body">
                 <input type="text" id="institution" placeholder="Institución" value="{{ cv.educacion[0].institucion if cv.educacion else '' }}">
-                <input type="text" id="degree" placeholder="Grado" value="{{ cv.educacion[0].grado if cv.educacion else '' }}">
+                <input type="text" id="degree" placeholder="Carrera" value="{{ cv.educacion[0].grado if cv.educacion else '' }}">
                 <label for="educacion-start-date">Fecha de inicio</label>
                 <input type="date" class="custom-date" id="education-start-date" value="{{ cv.educacion[0].fecha_inicio if cv.educacion else '' }}">
                 <label for="educacion-end-date">Fecha de finalización</label>
@@ -91,9 +91,9 @@
             <div class="form-header" onclick="toggleSection('lenguaje-info')">
                 Idioma
                 <span>▲</span>
-            </div>
+            </div> 
             <div class="form-body">
-                <input type="text" id="language" placeholder="Lenguaje" value="{{ cv.lenguajes[0].idioma if cv.lenguajes else '' }}">
+                <input type="text" id="language" placeholder="Idioma" value="{{ cv.lenguajes[0].idioma if cv.lenguajes else '' }}">
                 <input type="text" id="language-level" placeholder="Nivel" value="{{ cv.lenguajes[0].nivel if cv.lenguajes else '' }}">
             </div>
         </div>
@@ -225,12 +225,9 @@
     function eliminarCurriculum() {
         if (confirm("¿Estás seguro de que deseas eliminar este currículum? Esta acción no se puede deshacer.")) {
             // Enviar la solicitud de eliminación al servidor
-            fetch('/curriculums/eliminar/{{ id }}', {
+            // fetch('/curriculums/eliminar/{{ id }}', {
+            fetch("{{ url_for('curriculums.eliminar', id_curriculum=id) }}", {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ id: '{{ id }}' })  // Enviar el ID del currículum
             })
             .then(response => response.json())
             .then(data => {

@@ -39,12 +39,20 @@ def crearCV(titulo, id_plantilla):
     if ConectorDBCurriculums.crearCV(id_usuario, id_plantilla, titulo):
         return jsonify({
             'status': 'success',
-            'message': '¡Curriculum creado correctamente! ✅'
+            'message': '¡Curriculum creado correctamente! ✅',
         })
     
 def obtenerCV(id_curriculum):
+
+    id_usuario = GestorSesion.getIdUsuario()
+    if not ConectorDBCurriculums.existeCurriculum(id_curriculum, id_usuario):
+        estado = False
+        mensaje = "No existe el curriculum ❌"
+        return estado, mensaje 
+
     cv = ConectorDBCurriculums.obtenerDatosJson(id_curriculum)
-    return cv
+    estado = True
+    return estado, cv
 
 def actualizarCV(id_curriculum, datos):
     # Convertir los datos a una cadena JSON
@@ -83,6 +91,27 @@ def eliminarCV(id_curriculum):
             'status': 'error',
             'message': 'No existe el curriculum ❌'
     })
+
+def previsualilzar(id_curriculum):
+    id_usuario = GestorSesion.getIdUsuario()
+    if not ConectorDBCurriculums.existeCurriculum(id_curriculum, id_usuario):
+        estado = False
+        mensaje = "No existe el curriculum ❌"
+        return estado, mensaje 
+        
+    # obtener ifnormación de la BD
+    cv = ConectorDBCurriculums.obtenerCV(id_curriculum)
+    
+    id_plantilla = str(cv[1])
+    nombre_cv = cv[2]
+    datos = {} # Siempre pasar un diccionario (aunque este vacio)
+    if cv[5]:
+        datos = json.loads(cv[5])
+    else:
+        datos = getJsonEjemplo()
+
+    estado = True
+    return estado, Exportacion.exportar("preview", id_plantilla, nombre_cv, datos)
 
 def exportar(id_curriculum, formato):
     id_usuario = GestorSesion.getIdUsuario()

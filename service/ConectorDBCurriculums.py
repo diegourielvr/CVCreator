@@ -110,6 +110,22 @@ def existeCurriculum(id_curriculum, id_usuario):
     except mysql.connector.Error as err:
         return False
 
+def getIdByTitulo(titulo):
+    sql = """
+    SELECT id_curriculum from curriculums
+    WHERE titulo = %s
+    """
+    values = (titulo, )
+    try:
+        cursor.execute(sql, values)
+        id = cursor.fetchone()
+        if id:
+            return id
+        return False
+    except mysql.connector.Error as err:
+        return False
+    
+
 def obtenerDatosJson(id_curriculum):
     sql = """
     SELECT archivo_json 

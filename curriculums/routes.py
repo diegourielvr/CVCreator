@@ -37,8 +37,10 @@ def editar(id_curriculum):
 
     if request.method == 'GET':
         # Obtener la información del currículum y pasarla al render para completar el HTML
-        cv = GestorCurriculums.obtenerCV(id)
-        return render_template('edicion.html', id=id, cv=cv)
+        ok, respuesta = GestorCurriculums.obtenerCV(id)
+        if ok:
+            return render_template('edicion.html', id=id, cv=respuesta)
+        return render_template('notificacion.html', mensaje=respuesta)
 
     if request.method == 'POST':
             # Extraer datos JSON del cuerpo de la solicitud
@@ -61,7 +63,7 @@ def previsualizar(id_curriculum):
     if not GestorSesion.usuarioLogeado():
         return redirect(url_for('principal.index'))
 
-    estado, respuesta = GestorCurriculums.exportar(id_curriculum, "pdf")
+    estado, respuesta = GestorCurriculums.previsualilzar(id_curriculum)
     if estado:
         return respuesta # Devuelve el archivo
     else:
