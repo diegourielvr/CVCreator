@@ -10,6 +10,51 @@ body {
     overflow: hidden; /* Evitar overflow del body */
 }
 
+.menu {
+    position: relative; /* Para posicionar el menú desplegable */
+    display: inline-block; /* Mantener el menú en línea */
+}
+
+.menu-toggle {
+    background-color: transparent; /* Color de fondo del botón de menú */
+    color: rgb(236, 24, 24); /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno del botón */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+}
+
+.botones {
+    display: none; /* Ocultar el menú por defecto */
+    position: absolute; /* Posicionar el menú respecto al botón */
+    background-color: var(--color-gris); /* Color de fondo del menú */
+    border: 1px solid var(--color-secundario); /* Borde del menú */
+    border-radius: 5px; /* Bordes redondeados */
+    z-index: 1; /* Asegurarse de que el menú esté encima */
+    margin-top: 5px; /* Espacio entre el botón y el menú */
+    padding: 10px; /* Espaciado interno del menú */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra para el menú */
+}
+
+.botones.active {
+    display: block; /* Mostrar el menú cuando tenga la clase "active" */
+}
+
+.agregarCampo {
+    background-color: #007bff; /* Color de fondo del botón */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 15px; /* Espaciado interno del botón */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+    margin: 5px 0; /* Espacio entre los botones */
+    width: 100%; /* Hacer que los botones ocupen el ancho completo */
+}
+
+.agregarCampo:hover {
+    background-color: #0056b3; /* Color de fondo al pasar el ratón */
+}
+
 .buttons-bar {
     display: flex;
     justify-content: space-between;
@@ -97,9 +142,22 @@ body {
     font-weight: normal;
     color: var(--color-primario);
 }
-.form-container .seccion .eliminar {
+/* .form-container .seccion .eliminar { */
+.form-container .seccion .form-panel .form-header .header-buttons-left {
+    display: flex;
+    align-items: center;
+}
+.form-container .seccion .form-panel .form-header .header-buttons-left .eliminar {
+    color: var(--color-primario);
     cursor: pointer;
-    font-size: var(--size-encabezado2);
+    padding: 0px 10px;
+    margin-left: 10px;
+    font-size: 1.1em;
+    border-radius: 5px;
+}
+.form-container .seccion .form-panel .form-header .header-buttons-left .eliminar:hover {
+    transition: all 0.5s ease; /* Añade una transición suave para la transformación */
+    background-color: crimson;
 }
 .form-body {
     margin-top: 20px;

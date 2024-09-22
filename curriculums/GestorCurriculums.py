@@ -68,9 +68,9 @@ def actualizarCV(id_curriculum, datos):
     else:
         return jsonify({
                 'status': 'error',
-                'message': 'Error al actualizar el currículum. ⚠'
+                'message': 'No haz realizado cambios. ⚠'
+                # 'message': 'Error al actualizar el currículum. ⚠'
         })
-
 
 def eliminarCV(id_curriculum):
     # Validar si existe el cv antes de eliminar y si le pertenece al usuario actual

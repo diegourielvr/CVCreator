@@ -17,10 +17,20 @@
         <a href="{{ url_for('curriculums.home') }}">
             <button class="back-button">Regresar</button>
         </a>
+        <div class="menu">
+            <button class="menu-toggle">Añadir campo </button>
+            <div class="botones">
+                <button type="button" class="agregarCampo" id="agregarExperiencia">Añadir trabajo</button>
+                <button type="button" class="agregarCampo" id="agregarEducacion">Añadir educación</button>
+                <button type="button" class="agregarCampo" id="agregarHabilidad">Añadir habilidad</button>
+                <button type="button" class="agregarCampo" id="agregarIdioma">Añadir idioma</button>
+                <button type="button" class="agregarCampo" id="agregarLink">Añadir link</button>
+            </div>
+        </div> 
     </div>
     <div class="buttons-right">
         <button class="guardar" onclick="saveToJson()">Guardar</button>
-        <button id="compilar-btn" onclick="compilar()">Compilar</button> <!--  -->
+        <button id="compilar-btn" onclick="compilar()">Vista previa</button> <!--  -->
         <a href="{{ url_for('curriculums.exportar', id_curriculum=id) }}">
             <button>Exportar</button>
         </a>
@@ -30,11 +40,11 @@
 </div>
 
 <div class="container">
-    <div class="form-container">
+    <div class="form-container">       
         <div class="form-panel" id="personal-info">
             <div class="form-header" onclick="toggleSection('personal-info')">
                 Datos Personales
-                <span>▲</span>
+                <span class="toggle-icon">▲</span> 
             </div>
             <div class="form-body">
                 <input type="text" name="nombre"" id="name" placeholder="Nombre(s)" value="{{ cv.datos_personales.nombre if cv.datos_personales else '' }}" required>
@@ -46,42 +56,25 @@
                 <input type="email" name="email" id="email" placeholder="Correo electrónico" value="{{ cv.datos_personales.email if cv.datos_personales else '' }}">
             </div>
         </div>
-
+        
         <!-- Seccion de experiencias laborales -->
         <div class="seccion" id="experienciasLaborales">
         </div>
-        <button type="button" class="agregarCampo" id="agregarExperiencia">Añadir trabajo</button>
 
         <!-- Seccion de educacion-->
         <div class="seccion" id="seccionEducacion">
         </div>
-        <button type="button" class="agregarCampo" id="agregarEducacion">Añadir educacion</button>
 
         <!-- Seccion de habilidades-->
         <div class="seccion" id="seccionHabilidad">
         </div>
-        <button type="button" class="agregarCampo" id="agregarHabilidad">Añadir habilidad</button>
 
         <!-- seccion de idiomas -->
-        <div class="form-panel" id="lenguaje-info">
-            <div class="form-header" onclick="toggleSection('lenguaje-info')">
-                Idioma
-                <span>▲</span>
-            </div> 
-            <div class="form-body">
-                <input type="text" id="language" placeholder="Idioma" value="{{ cv.lenguajes[0].idioma if cv.lenguajes else '' }}">
-                <input type="text" id="language-level" placeholder="Nivel" value="{{ cv.lenguajes[0].nivel if cv.lenguajes else '' }}">
-            </div>
+        <div class="seccion" id="seccionIdioma">
+            <!-- Aquí se insertarán las secciones de idiomas dinámicamente -->
         </div>
-        <div class="form-panel" id="links-info">
-            <div class="form-header" onclick="toggleSection('links-info')">
-                Links
-                <span>▲</span>
-            </div>
-            <div class="form-body">
-                <input type="text" id="link-nombre" placeholder="Nombre" value="{{ cv.links[0].nombre if cv.links else '' }}">
-                <input type="text" id="link" placeholder="Link" value="{{ cv.links[0].link if cv.links else '' }}">
-            </div>
+        
+        <div class="seccion" id="seccionLinks">
         </div>
     </div>
     <div class="preview-panel" id="previewPanel">
@@ -98,11 +91,13 @@
         const nuevaExperiencia = `
             <div class="form-panel" id="job-experience-${index+1}">
                 <div class="form-header" onclick="toggleSection('job-experience-${index+1}')">
-                    Experiencia Laboral
-                    <span>▲</span>
-                </div>
-                <div class="eliminar" onclick="eliminarSeccion('job-experience-${index+1}')">
-                    <span>X</span>
+                    <div class="header-buttons-left">
+                        Experiencia Laboral
+                        <div class="eliminar" onclick="eliminarSeccion('job-experience-${index+1}')">
+                            <span>🗑</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▲</span> 
                 </div>
                 <div class="form-body">
                     <input type="text" name="compania" id="company" placeholder="Compañía" value="${experiencia.compania}">
@@ -113,6 +108,7 @@
                     <input type="date" name="fecha_fin" class="custom-date" id="job-end-date" value="${experiencia.fecha_fin}">
                     <textarea id="job-summary" name="resumen" placeholder="Tarea / Resumen">${experiencia.resumen}</textarea>
                 </div>
+                
             </div>
         `;
         document.getElementById('experienciasLaborales').insertAdjacentHTML('beforeend', nuevaExperiencia);
@@ -121,11 +117,13 @@
         const nuevaEducacion = `
             <div class="form-panel" id="education-info-${index+1}">
                 <div class="form-header" onclick="toggleSection('education-info-${index+1}')">
-                    Educación
-                    <span>▲</span>
-                </div>
-                <div class="eliminar" onclick="eliminarSeccion('education-info-${index+1}')">
-                    <span>X</span>
+                    <div class="header-buttons-left">
+                        Educación
+                        <div class="eliminar" onclick="eliminarSeccion('education-info-${index+1}')">
+                            <span>🗑</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▲</span> 
                 </div>
                 <div class="form-body">
                     <input type="text" name="institucion" id="institution" placeholder="Institución" value="${educacion.institucion}">
@@ -144,19 +142,66 @@
         const nuevaHabilidad = `
             <div class="form-panel" id="habilidad-info-${index+1}">
                 <div class="form-header" onclick="toggleSection('habilidad-info-${index+1}')">
-                    Habilidades
-                    <span>▲</span>
-                </div>
-                <div class="eliminar" onclick="eliminarSeccion('habilidad-info-${index+1}')">
-                    <span>X</span>
+                    <div class="header-buttons-left">
+                        Habilidades
+                        <div class="eliminar" onclick="eliminarSeccion('habilidad-info-${index+1}')">
+                            <span>🗑</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▲</span> 
                 </div>
                 <div class="form-body">
                     <input type="text" name="nombre" id="skill" placeholder="Habilidad" value="${habilidad.nombre}">
                     <input type="text" name="resumen" id="skill-description" placeholder="Descripción" value="${habilidad.resumen}">
                 </div>
+                
             </div>
         `;
         document.getElementById('seccionHabilidad').insertAdjacentHTML('beforeend', nuevaHabilidad);
+    });
+    datosCurriculum.lenguajes.forEach((idioma, index) => {
+    const nuevoIdioma = `
+        <div class="form-panel" id="idioma-info-${index+1}">
+            <div class="form-header" onclick="toggleSection('idioma-info-${index+1}')">
+                <div class="header-buttons-left">
+                    Idioma
+                    <div class="eliminar" onclick="eliminarSeccion('idioma-info-${index+1}')">
+                        <span>🗑</span> <!-- Span para eliminar -->
+                    </div>
+                </div>
+                <span class="toggle-icon">▲</span> <!-- Span de la flecha -->
+            </div>
+
+            <div class="form-body">
+                <input type="text" name="idioma" id="language" placeholder="Idioma" value="${idioma.idioma}">
+                <input type="text" name="nivel" id="language-level" placeholder="Nivel" value="${idioma.nivel}">
+            </div>
+        </div>
+    `;
+        // Añadir la nueva sección al contenedor de secciones de idiomas
+        document.getElementById('seccionIdioma').insertAdjacentHTML('beforeend', nuevoIdioma);
+    });
+    datosCurriculum.links.forEach((link, index) => {
+        const nuevoLink = `
+            <div class="form-panel" id="link-info-${index+1}">
+                <div class="form-header" onclick="toggleSection('link-info-${index+1}')">
+                    <div class="header-buttons-left">
+                        Link
+                        <div class="eliminar" onclick="eliminarSeccion('link-info-${index+1}')">
+                            <span>🗑</span> <!-- Span para eliminar -->
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▲</span> <!-- Span de la flecha -->
+                </div>
+
+                <div class="form-body">
+                    <input type="text" name="link-nombre" id="link-nombre-${index+1}" placeholder="Nombre" value="${link.nombre}">
+                    <input type="text" name="link" id="link-${index+1}" placeholder="Link" value="${link.link}">
+                </div>
+            </div>
+        `;
+        // Añadir la nueva sección al contenedor de secciones de links
+        document.getElementById('seccionLinks').insertAdjacentHTML('beforeend', nuevoLink);
     });
 
 
@@ -167,11 +212,13 @@
         const nuevaExperiencia = `
             <div class="form-panel" id="job-experience-${contadorExperiencia}">
                 <div class="form-header" onclick="toggleSection('job-experience-${contadorExperiencia}')">
-                    Experiencia Laboral
-                    <span>▲</span>
-                </div>
-                <div class="eliminar" onclick="eliminarSeccion('job-experience-${contadorExperiencia}')">
-                    <span>X</span>
+                    <div class="header-buttons-left">
+                        Experiencia Laboral
+                        <div class="eliminar" onclick="eliminarSeccion('job-experience-${contadorExperiencia}')">
+                            <span>🗑</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▲</span> 
                 </div>
                 <div class="form-body">
                     <input type="text" name="compania" id="company" placeholder="Compañía" value="">
@@ -182,6 +229,7 @@
                     <input type="date" name="fecha_fin" class="custom-date" id="job-end-date" value="">
                     <textarea id="job-summary" name="resumen" placeholder="Tarea / Resumen"></textarea>
                 </div>
+                
             </div>
         `;
         document.getElementById('experienciasLaborales').insertAdjacentHTML('beforeend', nuevaExperiencia);
@@ -192,11 +240,13 @@
         const nuevaEducacion = `
             <div class="form-panel" id="education-info-${contadorEducacion}">
                 <div class="form-header" onclick="toggleSection('education-info-${contadorEducacion}')">
-                    Educación
-                    <span>▲</span>
-                </div>
-                <div class="eliminar" onclick="eliminarSeccion('education-info-${contadorEducacion}')">
-                    <span>X</span>
+                    <div class="header-buttons-left">
+                        Educación
+                        <div class="eliminar" onclick="eliminarSeccion('education-info-${contadorEducacion}')">
+                            <span>🗑</span>
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▲</span> <!-- Span de la flecha -->
                 </div>
                 <div class="form-body">
                     <input type="text" name="institucion" id="institution" placeholder="Institución" value="">
@@ -207,6 +257,7 @@
                     <input type="date" name="fecha_fin" class="custom-date" id="education-end-date" value="">
                     <textarea name="resumen" id="education- description" placeholder="Descripción"></textarea>
                 </div>
+                
             </div>
         `;
         document.getElementById('seccionEducacion').insertAdjacentHTML('beforeend', nuevaEducacion);
@@ -217,20 +268,82 @@
         const nuevaHabilidad = `
             <div class="form-panel" id="habilidad-info-${contadorHabilidad}">
                 <div class="form-header" onclick="toggleSection('habilidad-info-${contadorHabilidad}')">
-                    Habilidades
-                    <span>▲</span>
+                    <div class="header-buttons-left">
+                        Habilidades
+                        <div class="eliminar" onclick="eliminarSeccion('habilidad-info-${contadorHabilidad}')">
+                            <span>🗑</span> <!-- Este span no se debe cambiar -->
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▲</span> <!-- Span de la flecha -->
                 </div>
-                <div class="eliminar" onclick="eliminarSeccion('habilidad-info-${contadorHabilidad}')">
-                    <span>X</span>
-                </div>
+                
                 <div class="form-body">
                     <input type="text" name="nombre" id="skill" placeholder="Habilidad" value="">
                     <input type="text" name="resumen" id="skill-description" placeholder="Descripción" value="">
+                    
                 </div>
+                
             </div>
         `;
         document.getElementById('seccionHabilidad').insertAdjacentHTML('beforeend', nuevaHabilidad);
     });
+
+    let contadorIdioma = 1; // Inicializamos el contador para las secciones de idioma
+
+    // Agregar nuevo idioma cuando se hace clic en el botón
+    document.getElementById('agregarIdioma').addEventListener('click', function() {
+        contadorIdioma++;
+        
+        // Nueva sección de idioma
+        const nuevoIdioma = `
+            <div class="form-panel" id="idioma-info-${contadorIdioma}">
+                <div class="form-header" onclick="toggleSection('idioma-info-${contadorIdioma}')">
+                    <div class="header-buttons-left">
+                        Idioma
+                        <div class="eliminar" onclick="eliminarSeccion('idioma-info-${contadorIdioma}')">
+                            <span>🗑</span> <!-- Span para eliminar -->
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▲</span> <!-- Span de la flecha -->
+                </div>
+
+                <div class="form-body">
+                    <input type="text" name="idioma" id="language" placeholder="Idioma" value="">
+                    <input type="text" name="nivel" id="language-level" placeholder="Nivel" value="">
+                </div>
+            </div>
+        `;
+        // Añadir la nueva sección al contenedor de secciones de idiomas
+        document.getElementById('seccionIdioma').insertAdjacentHTML('beforeend', nuevoIdioma);
+    });
+    let contadorLinks = 1; // Inicializamos el contador para las secciones de links
+    // Agregar nuevo link cuando se hace clic en el botón
+    document.getElementById('agregarLink').addEventListener('click', function() {
+        contadorLinks++;
+
+        // Nueva sección de link
+        const nuevoLink = `
+            <div class="form-panel" id="link-info-${contadorLinks}">
+                <div class="form-header" onclick="toggleSection('link-info-${contadorLinks}')">
+                    <div class="header-buttons-left">
+                        Link
+                        <div class="eliminar" onclick="eliminarSeccion('link-info-${contadorLinks}')">
+                            <span>🗑</span> <!-- Span para eliminar -->
+                        </div>
+                    </div>
+                    <span class="toggle-icon">▲</span> <!-- Span de la flecha -->
+                </div>
+
+                <div class="form-body">
+                    <input type="text" name="link-nombre" id="link-nombre-${contadorLinks}" placeholder="Nombre" value="">
+                    <input type="text" name="link" id="link-${contadorLinks}" placeholder="Link" value="">
+                </div>
+            </div>
+        `;
+        // Añadir la nueva sección al contenedor de secciones de links
+        document.getElementById('seccionLinks').insertAdjacentHTML('beforeend', nuevoLink);
+    });
+
 
     function eliminarSeccion(sectionId) {
         const section = document.getElementById(sectionId);
@@ -242,19 +355,20 @@
     function toggleSection(sectionId) {
         const section = document.getElementById(sectionId);
         const formBody = section.querySelector('.form-body');
-        const icon = section.querySelector('span');
+        const icon = section.querySelector('.toggle-icon'); // Seleccionar el span con clase 'toggle-icon'
 
         // Alternar la clase 'minimized'
         if (section.classList.contains('minimized')) {
             section.classList.remove('minimized');
             formBody.style.display = 'block'; // Mostrar el contenido del formulario
-            icon.textContent = '▲'; // Cambiar el icono a la flecha hacia abajo
+            icon.textContent = '▲'; // Cambiar el icono a la flecha hacia arriba
         } else {
             section.classList.add('minimized');
             formBody.style.display = 'none'; // Ocultar el contenido del formulario
-            icon.textContent = '▼'; // Cambiar el icono a la flecha hacia arriba
+            icon.textContent = '▼'; // Cambiar el icono a la flecha hacia abajo
         }
     }
+
     function togglePreview() {
         const toggleButton = document.getElementById('togglePreview');
         const previewPanel = document.getElementById('previewPanel');
@@ -268,6 +382,7 @@
             toggleButton.textContent = '←'; // Cambiar el texto del botón
         }
     }
+
     function saveToJson() {
         const datosPersonales = {}
         document.querySelectorAll('#personal-info input').forEach(input => {
@@ -297,22 +412,29 @@
             });
             seccionHabilidad.push(campos);
         });
-
+        // Recolectar lenguajes
+        const seccionIdioma = [];
+        document.querySelectorAll('#seccionIdioma .form-panel').forEach(lenguaje => {
+            const campos = {
+                idioma: lenguaje.querySelector('input[name="idioma"]').value,
+                nivel: lenguaje.querySelector('input[name="nivel"]').value
+            };
+            seccionIdioma.push(campos);
+        });
+        // Recolectar links
+        const seccionLinks = [];
+        document.querySelectorAll('#seccionLinks .form-panel').forEach(link => {
+            const campos = {
+                nombre: link.querySelector('input[name="link-nombre"]').value,
+                link: link.querySelector('input[name="link"]').value
+            };
+            seccionLinks.push(campos);
+        });
         // Recoger datos de los formularios
         const data = {
             datos_personales: datosPersonales,
-            links: [
-                {
-                    nombre: document.getElementById('link-nombre').value,
-                    link: document.getElementById('link').value
-                }
-            ],
-            lenguajes: [
-                {
-                    idioma: document.getElementById('language').value,
-                    nivel: document.getElementById('language-level').value
-                }
-            ],
+            links: seccionLinks,
+            lenguajes: seccionIdioma,
             habilidades: seccionHabilidad,
             experiencia_laboral: experienciasLaborales,
             educacion: seccionEducacion
@@ -320,7 +442,7 @@
         // Convertir a JSON
         const jsonData = JSON.stringify(data);
 
-        fetch('/curriculums/editar/{{ id }}', {
+        fetch("{{ url_for('curriculums.editar', id_curriculum=id)  }}", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -339,11 +461,13 @@
             console.error('Error', error);
         });
     }
+
     function compilar() {
         const url = "{{ url_for('curriculums.previsualizar', id_curriculum=id) }}";
         // Actualizar el src del iframe con la nueva URL
         document.getElementById('pdfFrame').src = url;
     }
+
     function eliminarCurriculum() {
         if (confirm("¿Estás seguro de que deseas eliminar este currículum? Esta acción no se puede deshacer.")) {
             // Enviar la solicitud de eliminación al servidor
@@ -366,6 +490,22 @@
             });
         }
     }
+
+    document.querySelector('.menu-toggle').addEventListener('click', function() {
+        const botones = document.querySelector('.botones');
+        botones.classList.toggle('active'); // Alternar la clase "active" para mostrar/ocultar
+    });
+
+    // Cerrar el menú al hacer clic fuera de él
+    window.addEventListener('click', function(event) {
+        if (!event.target.matches('.menu-toggle') && !event.target.closest('.botones')) {
+            const botones = document.querySelector('.botones');
+            if (botones.classList.contains('active')) {
+                botones.classList.remove('active');
+            }
+        }
+    });
+
 </script>
 
 </body>
